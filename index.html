@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇪🇸 Barcelona 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#FFF8F0 0%,#E8F4FD 50%,#FFF3E0 100%);min-height:100vh;color:#333}
+.top-bar{background:linear-gradient(90deg,#E53935,#FF7043,#FFB74D);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.top-bar h1{color:#fff;font-size:1.5rem;font-weight:800;text-shadow:1px 2px 4px rgba(0,0,0,.2)}
+.top-bar h1 span{font-size:1.1rem;font-weight:500;opacity:.9}
+.calendar-wrap{padding:20px;overflow-x:auto}
+.calendar{display:grid;grid-template-columns:60px repeat(4,1fr);gap:0;min-width:900px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.day-header{padding:14px 8px;text-align:center;font-weight:700;font-size:.95rem;background:linear-gradient(135deg,#FF7043,#E53935);color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,.2)}
+.day-header.sun{background:linear-gradient(135deg,#FFB74D,#FF9800)}
+.day-header.sat{background:linear-gradient(135deg,#43A047,#66BB6A)}
+.day-header .date{font-size:.75rem;font-weight:500;opacity:.85;margin-top:2px}
+.time-col{background:#FAFAFA}
+.time-label{height:60px;display:flex;align-items:flex-start;justify-content:center;font-size:.65rem;color:#999;padding-top:4px;border-bottom:1px solid #F0F0F0}
+.day-col{position:relative}
+.hour-slot{height:60px;border-bottom:1px solid #F0F0F0;border-right:1px solid #F0F0F0;position:relative}
+.hour-slot:nth-child(odd){background:#FAFCFF}
+.event{position:absolute;left:4px;right:4px;border-radius:10px;padding:8px 10px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;z-index:10;display:flex;flex-direction:column;justify-content:center;text-decoration:none;color:#fff}
+.event:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:20}
+.event .ev-title{font-weight:700;font-size:.8rem;line-height:1.2}
+.event .ev-time{font-size:.65rem;opacity:.85;margin-top:2px}
+.event .ev-icon{font-size:1.1rem;position:absolute;top:6px;right:8px}
+.corner{background:#FAFAFA;border-bottom:1px solid #F0F0F0;border-right:1px solid #F0F0F0;height:60px;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#999}
+.footer{text-align:center;padding:24px;color:#999;font-size:.8rem}
+.footer a{color:#E53935;text-decoration:none;font-weight:600}
+@media(max-width:768px){
+  .calendar-wrap{padding:10px}
+  .calendar{min-width:800px}
+  .top-bar h1{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <h1>🇪🇸 Barcelona 2026 <span>· May 27–30</span></h1>
+</div>
+<div class="calendar-wrap">
+<div class="calendar" id="calendar"></div>
+</div>
+<div class="footer">
+  Built by Jimothy 🦎 · <a href="../voting/index.html">🗳️ Vote on Activities</a>
+</div>
+
+<script>
+const EVENTS = [
+  {id:"flight-out",title:"Fly to Barcelona",day:"2026-05-27",start:"07:00",duration:195,icon:"✈️",colour:"#1E88E5",detail:true},
+  {id:"arrive-bcn",title:"Arrive in Barcelona",day:"2026-05-27",start:"10:15",duration:60,icon:"🛬",colour:"#43A047",detail:true},
+  {id:"checkin",title:"Check In",day:"2026-05-27",start:"16:00",duration:60,icon:"🏠",colour:"#FF7043",detail:true},
+  {id:"casa-batllo",title:"Casa Batlló",day:"2026-05-28",start:"09:00",duration:120,icon:"🏛️",colour:"#E040FB",detail:true},
+  {id:"checkout",title:"Checkout",day:"2026-05-30",start:"10:00",duration:30,icon:"🔑",colour:"#78909C",detail:false},
+  {id:"flight-home",title:"Fly Home",day:"2026-05-30",start:"10:50",duration:90,icon:"✈️",colour:"#1E88E5",detail:true}
+];
+
+const DAYS = [
+  {date:"2026-05-27",label:"WED",sub:"27 May",cls:""},
+  {date:"2026-05-28",label:"THU",sub:"28 May",cls:""},
+  {date:"2026-05-29",label:"FRI",sub:"29 May",cls:"sun"},
+  {date:"2026-05-30",label:"SAT",sub:"30 May",cls:"sat"}
+];
+
+const START_HOUR = 6;
+const END_HOUR = 24;
+const SLOT_H = 60; // px per hour
+const MINS_PER_SLOT = 60;
+
+function timeToMinutes(t){const[h,m]=t.split(":").map(Number);return h*60+m}
+
+function buildCalendar(){
+  const cal = document.getElementById("calendar");
+  // Corner
+  const corner = document.createElement("div");
+  corner.className = "corner";
+  corner.textContent = "⏰";
+  cal.appendChild(corner);
+
+  // Day headers
+  DAYS.forEach(d=>{
+    const hdr = document.createElement("div");
+    hdr.className = "day-header" + (d.cls ? " "+d.cls : "");
+    hdr.innerHTML = `${d.label}<div class="date">${d.sub}</div>`;
+    cal.appendChild(hdr);
+  });
+
+  // Time rows
+  for(let h = START_HOUR; h < END_HOUR; h++){
+    // Time label
+    const tl = document.createElement("div");
+    tl.className = "time-label";
+    tl.textContent = `${String(h).padStart(2,"0")}:00`;
+    cal.appendChild(tl);
+    // Day cells
+    DAYS.forEach(d=>{
+      const cell = document.createElement("div");
+      cell.className = "hour-slot";
+      cell.dataset.day = d.date;
+      cell.dataset.hour = h;
+      cal.appendChild(cell);
+    });
+  }
+
+  // Place events
+  EVENTS.forEach(ev => {
+    const startMin = timeToMinutes(ev.start) - START_HOUR*60;
+    const topPx = (startMin / MINS_PER_SLOT) * SLOT_H;
+    const heightPx = (ev.duration / MINS_PER_SLOT) * SLOT_H;
+
+    const el = document.createElement("a");
+    el.href = ev.detail ? `${ev.id}.html` : "#";
+    if(!ev.detail) el.onclick = ()=>false;
+    el.className = "event";
+    el.style.top = topPx + "px";
+    el.style.height = heightPx + "px";
+    el.style.backgroundColor = ev.colour;
+    el.style.color = "#fff";
+    el.innerHTML = `
+      <span class="ev-icon">${ev.icon}</span>
+      <span class="ev-title">${ev.title}</span>
+      <span class="ev-time">${ev.start}${ev.duration>60?" – "+formatEndTime(ev.start,ev.duration):""}</span>
+    `;
+
+    // Find the correct day column cell at the start hour
+    const startH = parseInt(ev.start.split(":")[0]);
+    const startRow = startH - START_HOUR;
+    const dayIdx = DAYS.findIndex(d=>d.date===ev.day);
+    // Position absolutely within the day-col wrapper
+    // We need a container per day column
+    const dayCells = cal.querySelectorAll(`.hour-slot[data-day="${ev.day}"]`);
+    if(dayCells.length > 0){
+      // Create a wrapper for the day column
+      let wrapper = dayCells[0].parentElement.querySelector(".day-event-layer");
+      if(!wrapper){
+        wrapper = document.createElement("div");
+        wrapper.className = "day-event-layer";
+        wrapper.style.cssText = "position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;";
+        // We need to restructure - let's use a different approach
+      }
+    }
+  });
+
+  // Restructure: wrap each day column in a relative container
+  restructureCalendar();
+}
+
+function formatEndTime(start, duration){
+  const mins = timeToMinutes(start) + duration;
+  const h = Math.floor(mins/60);
+  const m = mins%60;
+  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
+}
+
+function restructureCalendar(){
+  const cal = document.getElementById("calendar");
+  // Remove placed events from DOM (they were appended but not positioned correctly)
+  cal.querySelectorAll(".event").forEach(e=>e.remove());
+
+  // For each day, create a column overlay for events
+  DAYS.forEach((d, di) => {
+    const cells = cal.querySelectorAll(`.hour-slot[data-day="${d.date}"]`);
+    if(cells.length === 0) return;
+    
+    const colWrap = document.createElement("div");
+    colWrap.className = "day-col";
+    colWrap.style.cssText = "position:relative;";
+
+    // Find the header for this day
+    const headers = cal.querySelectorAll(".day-header");
+    // Build a proper grid row approach
+  });
+
+  // Actually let's just place events with absolute positioning relative to the grid
+  // The grid has time-col + 4 day columns, each hour row
+  // Events need position:absolute within their day column
+  
+  // Better approach: use CSS grid with named areas and position events manually
+  // Simplest: use a per-day overlay div
+  
+  const calendarRect = cal.getBoundingClientRect();
+  
+  EVENTS.forEach(ev => {
+    const startMin = timeToMinutes(ev.start) - START_HOUR*60;
+    const topPx = (startMin / MINS_PER_SLOT) * SLOT_H;
+    const heightPx = (ev.duration / MINS_PER_SLOT) * SLOT_H;
+    const dayIdx = DAYS.findIndex(d => d.date === ev.day);
+    if(dayIdx === -1) return;
+
+    const el = document.createElement("a");
+    el.href = ev.detail ? `${ev.id}.html` : "#";
+    if(!ev.detail) el.onclick = () => false;
+    el.className = "event";
+    el.style.backgroundColor = ev.colour;
+    el.innerHTML = `
+      <span class="ev-icon">${ev.icon}</span>
+      <span class="ev-title">${ev.title}</span>
+      <span class="ev-time">${ev.start}${ev.duration>60?" – "+formatEndTime(ev.start,ev.duration):""}</span>
+    `;
+
+    // Position: need to know which grid column
+    // Grid columns: 60px (time) | day0 | day1 | day2 | day3
+    // We'll position absolutely on the calendar div itself
+    el.style.position = "absolute";
+    
+    // We'll compute left/width after render
+    ev._el = el;
+    ev._dayIdx = dayIdx;
+    ev._topPx = topPx;
+    ev._heightPx = heightPx;
+    cal.appendChild(el);
+  });
+
+  // Position events after layout
+  requestAnimationFrame(() => positionEvents());
+}
+
+function positionEvents(){
+  const cal = document.getElementById("calendar");
+  const cells = cal.querySelectorAll(".day-header");
+  const timeLabels = cal.querySelectorAll(".time-label");
+  
+  if(cells.length < 4 || timeLabels.length < 1) return;
+
+  // Get column positions from day headers
+  const calRect = cal.getBoundingClientRect();
+  const colPositions = [];
+  for(let i = 0; i < 4; i++){
+    const r = cells[i].getBoundingClientRect();
+    colPositions.push({left: r.left - calRect.left, width: r.width});
+  }
+
+  // Get top offset from first time label
+  const firstTimeRect = timeLabels[0].getBoundingClientRect();
+  const topOffset = firstTimeRect.top - calRect.top;
+
+  EVENTS.forEach(ev => {
+    if(!ev._el) return;
+    const col = colPositions[ev._dayIdx];
+    if(!col) return;
+    
+    ev._el.style.left = (col.left + 4) + "px";
+    ev._el.style.width = (col.width - 8) + "px";
+    ev._el.style.top = (topOffset + ev._topPx) + "px";
+    ev._el.style.height = ev._heightPx + "px";
+  });
+}
+
+window.addEventListener("resize", positionEvents);
+buildCalendar();
+</script>
+</body>
+</html>

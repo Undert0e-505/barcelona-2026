@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏠 Check In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#FFF8F0 0%,#E8F4FD 100%);min-height:100vh;color:#333}
+.hero{height:300px;background:linear-gradient(135deg,#FF7043,#E64A19);display:flex;align-items:flex-end;padding:30px;position:relative;overflow:hidden}
+.hero::before{content:'🏠';position:absolute;top:20px;right:30px;font-size:120px;opacity:.15}
+.hero h1{color:#fff;font-size:2.2rem;font-weight:800;text-shadow:2px 2px 8px rgba(0,0,0,.3)}
+.hero .sub{color:rgba(255,255,255,.85);font-size:1rem;margin-top:4px}
+.content{max-width:700px;margin:0 auto;padding:24px 20px}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.card h2{font-size:1.2rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tag{display:inline-block;background:#FBE9E7;color:#E64A19;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600}
+.fact{padding:12px 0;border-bottom:1px solid #F0F0F0;display:flex;gap:12px;align-items:flex-start}
+.fact:last-child{border:none}
+.fact .emoji{font-size:1.5rem;flex-shrink:0}
+.fact p{font-size:.9rem;line-height:1.5}
+.fact strong{color:#FF7043}
+.joke{background:linear-gradient(135deg,#FFF9C4,#FFECB3);border-radius:12px;padding:16px;font-size:.9rem}
+.joke .q{font-weight:600;margin-bottom:4px}
+.joke .a{color:#E65100;font-style:italic}
+.map-wrap{border-radius:12px;overflow:hidden;margin-top:8px}
+iframe{display:block;width:100%;height:400px;border:0}
+.back{display:inline-flex;align-items:center;gap:6px;color:#FF7043;text-decoration:none;font-weight:600;margin-bottom:16px;font-size:.9rem}
+.back:hover{text-decoration:underline}
+.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F5F5F5;font-size:.9rem}
+.info-row:last-child{border:none}
+.info-label{color:#999;font-weight:500}
+.info-value{font-weight:600;text-align:right}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div>
+    <h1>Check In</h1>
+    <div class="sub">Wed 27 May · 16:00 · <span class="tag">accommodation</span></div>
+  </div>
+</div>
+
+<div class="content">
+<a class="back" href="index.html">← Back to itinerary</a>
+
+<div class="card">
+  <h2>📋 Accommodation Details</h2>
+  <div class="info-row"><span class="info-label">Property</span><span class="info-value">Nice 3 BedRoom flat in front of Park Eixample</span></div>
+  <div class="info-row"><span class="info-label">Type</span><span class="info-value">Entire apartment · 3 bedrooms</span></div>
+  <div class="info-row"><span class="info-label">Check-in</span><span class="info-value">Wed 27 May, 16:00</span></div>
+  <div class="info-row"><span class="info-label">Checkout</span><span class="info-value">Sat 30 May, 10:00</span></div>
+  <div class="info-row"><span class="info-label">Guests</span><span class="info-value">4</span></div>
+  <div class="info-row"><span class="info-label">Neighbourhood</span><span class="info-value">Eixample</span></div>
+</div>
+
+<div class="card">
+  <h2>💡 Good to Know</h2>
+  <div class="fact"><span class="emoji">⏰</span><p><strong>Early check-in</strong> isn't confirmed yet — the host will update closer to the date. If not available, there are luggage lockers ~8 min away near Plaça Cataluña.</p></div>
+  <div class="fact"><span class="emoji">🏛️</span><p><strong>Eixample</strong> (Catalan for "expansion") is Barcelona's iconic grid-plan district, designed by Ildefons Cerdà in the 1850s. The wide streets and chamfered corners were built for sunlight and ventilation — revolutionary at the time.</p></div>
+  <div class="fact"><span class="emoji">🌳</span><p>The flat is right near <strong>Parc de la Ciutadella</strong> — one of Barcelona's loveliest green spaces, home to the city zoo, a boating lake, and the Catalan Parliament building.</p></div>
+  <div class="fact"><span class="emoji">🚶</span><p>From Eixample you can walk to <strong>Sagrada Família (15 min)</strong>, <strong>Passeig de Gràcia (5 min)</strong>, and <strong>the Gothic Quarter (15 min)</strong>. You're right in the middle of everything.</p></div>
+</div>
+
+<div class="card">
+  <h2>😂 Joke</h2>
+  <div class="joke">
+    <div class="q">Why did the flat apply for a job in Eixample?</div>
+    <div class="a">Because it wanted a good location with room for expansion! 🏠</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📍 Location</h2>
+  <div class="map-wrap">
+    <iframe src="https://maps.google.com/maps?q=Eixample+Barcelona&output=embed" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✈️ Fly to Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#FFF8F0 0%,#E8F4FD 100%);min-height:100vh;color:#333}
+.hero{height:300px;background:linear-gradient(135deg,#1E88E5,#1565C0);display:flex;align-items:flex-end;padding:30px;position:relative;overflow:hidden}
+.hero::before{content:'✈️';position:absolute;top:20px;right:30px;font-size:120px;opacity:.15}
+.hero h1{color:#fff;font-size:2.2rem;font-weight:800;text-shadow:2px 2px 8px rgba(0,0,0,.3)}
+.hero .sub{color:rgba(255,255,255,.85);font-size:1rem;margin-top:4px}
+.content{max-width:700px;margin:0 auto;padding:24px 20px}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.card h2{font-size:1.2rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h2 .icon{font-size:1.4rem}
+.tag{display:inline-block;background:#E3F2FD;color:#1565C0;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600}
+.fact{padding:12px 0;border-bottom:1px solid #F0F0F0;display:flex;gap:12px;align-items:flex-start}
+.fact:last-child{border:none}
+.fact .emoji{font-size:1.5rem;flex-shrink:0}
+.fact p{font-size:.9rem;line-height:1.5}
+.fact strong{color:#1E88E5}
+.joke{background:linear-gradient(135deg,#FFF9C4,#FFECB3);border-radius:12px;padding:16px;margin-top:8px;font-size:.9rem}
+.joke .q{font-weight:600;margin-bottom:4px}
+.joke .a{color:#E65100;font-style:italic}
+.map-wrap{border-radius:12px;overflow:hidden;margin-top:8px}
+iframe{display:block;width:100%;height:400px;border:0}
+.back{display:inline-flex;align-items:center;gap:6px;color:#1E88E5;text-decoration:none;font-weight:600;margin-bottom:16px;font-size:.9rem}
+.back:hover{text-decoration:underline}
+.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F5F5F5;font-size:.9rem}
+.info-row:last-child{border:none}
+.info-label{color:#999;font-weight:500}
+.info-value{font-weight:600;text-align:right}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div>
+    <h1>Fly to Barcelona</h1>
+    <div class="sub">Wed 27 May · 07:00–10:15 · <span class="tag">travel</span></div>
+  </div>
+</div>
+
+<div class="content">
+<a class="back" href="index.html">← Back to itinerary</a>
+
+<div class="card">
+  <h2><span class="icon">📋</span> Flight Details</h2>
+  <div class="info-row"><span class="info-label">Route</span><span class="info-value">London Luton → Barcelona T2C</span></div>
+  <div class="info-row"><span class="info-label">Departure</span><span class="info-value">07:00</span></div>
+  <div class="info-row"><span class="info-label">Arrival</span><span class="info-value">10:15 (local time)</span></div>
+  <div class="info-row"><span class="info-label">Duration</span><span class="info-value">~2h 15min</span></div>
+  <div class="info-row"><span class="info-label">Baggage</span><span class="info-value">Cabin bags only</span></div>
+  <div class="info-row"><span class="info-label">Check-in</span><span class="info-value">Opens 30 days before</span></div>
+</div>
+
+<div class="card">
+  <h2><span class="icon">💡</span> Fun Facts</h2>
+  <div class="fact"><span class="emoji">🛫</span><p>Barcelona's airport is called <strong>Josep Tarradellas El Prat</strong>, named after a Catalan politician. Locals just call it "El Prat" — which also means "meadow" in Catalan.</p></div>
+  <div class="fact"><span class="emoji">⏰</span><p>Spain is on <strong>CEST (Central European Summer Time)</strong> — one hour ahead of the UK. You gain an hour on the way back!</p></div>
+  <div class="fact"><span class="emoji">✈️</span><p>easyJet was founded in 1995 and originally operated with planes leased from <strong>Air Foyle</strong>. Their first flight was from Luton to Glasgow for just £29.</p></div>
+  <div class="fact"><span class="emoji">🌍</span><p>At 10:15 you'll be touching down in <strong>Catalonia</strong>, a region with its own language (Catalan), its own flag, and a very strong identity. "Bon dia" means good morning!</p></div>
+</div>
+
+<div class="card">
+  <h2><span class="icon">😂</span> Travel Joke</h2>
+  <div class="joke">
+    <div class="q">Why don't planes ever get tired?</div>
+    <div class="a">Because they're always on autopilot! ✈️</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="icon">📍</span> Location</h2>
+  <div class="map-wrap">
+    <iframe src="https://maps.google.com/maps?q=London+Luton+Airport&output=embed" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

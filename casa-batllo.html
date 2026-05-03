@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏛️ Casa Batlló</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#FFF8F0 0%,#E8F4FD 100%);min-height:100vh;color:#333}
+.hero{height:340px;background:linear-gradient(135deg,#E040FB,#7B1FA2);display:flex;align-items:flex-end;padding:30px;position:relative;overflow:hidden}
+.hero-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.3}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(transparent,rgba(123,31,162,.7))}
+.hero-content{position:relative;z-index:2}
+.hero h1{color:#fff;font-size:2.4rem;font-weight:800;text-shadow:2px 2px 8px rgba(0,0,0,.4)}
+.hero .sub{color:rgba(255,255,255,.9);font-size:1rem;margin-top:4px}
+.content{max-width:700px;margin:0 auto;padding:24px 20px}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.card h2{font-size:1.2rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tag{display:inline-block;background:#F3E5F5;color:#7B1FA2;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600}
+.fact{padding:12px 0;border-bottom:1px solid #F0F0F0;display:flex;gap:12px;align-items:flex-start}
+.fact:last-child{border:none}
+.fact .emoji{font-size:1.5rem;flex-shrink:0}
+.fact p{font-size:.9rem;line-height:1.5}
+.fact strong{color:#E040FB}
+.joke{background:linear-gradient(135deg,#FFF9C4,#FFECB3);border-radius:12px;padding:16px;font-size:.9rem}
+.joke .q{font-weight:600;margin-bottom:4px}
+.joke .a{color:#E65100;font-style:italic}
+.map-wrap{border-radius:12px;overflow:hidden;margin-top:8px}
+iframe{display:block;width:100%;height:400px;border:0}
+.back{display:inline-flex;align-items:center;gap:6px;color:#E040FB;text-decoration:none;font-weight:600;margin-bottom:16px;font-size:.9rem}
+.back:hover{text-decoration:underline}
+.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F5F5F5;font-size:.9rem}
+.info-row:last-child{border:none}
+.info-label{color:#999;font-weight:500}
+.info-value{font-weight:600;text-align:right}
+.trivia-box{background:linear-gradient(135deg,#F3E5F5,#E1BEE7);border-radius:12px;padding:20px;margin-top:12px}
+.trivia-box h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+.trivia-box .question{font-size:.95rem;font-weight:500;margin-bottom:8px}
+.trivia-box button{background:#7B1FA2;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-family:'Poppins',sans-serif;font-weight:600;cursor:pointer;font-size:.85rem;margin-right:8px}
+.trivia-box button:hover{background:#6A1B9A}
+.trivia-box .answer{display:none;margin-top:8px;padding:12px;background:#fff;border-radius:8px;font-size:.9rem;font-weight:500;color:#7B1FA2}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img class="hero-img" src="img/casa-batllo.jpg" alt="Casa Batlló" onerror="this.style.display='none'">
+  <div class="hero-content">
+    <h1>Casa Batlló</h1>
+    <div class="sub">Thu 28 May · 09:00–11:00 · <span class="tag">sights</span></div>
+  </div>
+</div>
+
+<div class="content">
+<a class="back" href="index.html">← Back to itinerary</a>
+
+<div class="card">
+  <h2>📋 Visit Details</h2>
+  <div class="info-row"><span class="info-label">Experience</span><span class="info-value">Casa Batlló Silver APP</span></div>
+  <div class="info-row"><span class="info-label">Date</span><span class="info-value">Thursday 28 May, 09:00</span></div>
+  <div class="info-row"><span class="info-label">Duration</span><span class="info-value">~2 hours</span></div>
+  <div class="info-row"><span class="info-label">Address</span><span class="info-value">Passeig de Gràcia, 43</span></div>
+  <div class="info-row"><span class="info-label">Tickets</span><span class="info-value">2 Adult + 2 Junior</span></div>
+  <div class="info-row"><span class="info-label">⚠️ Must do</span><span class="info-value">Download Gaudí App + bring headphones!</span></div>
+</div>
+
+<div class="card">
+  <h2>💡 Fun Facts</h2>
+  <div class="fact"><span class="emoji">🐉</span><p>The building's roof is shaped like a <strong>dragon's back</strong> — the round colourful tiles are meant to be its scales. Legend has it the turret with the cross on top is <strong>St George's lance</strong> piercing the dragon.</p></div>
+  <div class="fact"><span class="emoji">🦴</span><p>Local nicknames for Casa Batlló include <strong>"Casa dels Ossos"</strong> (House of Bones) because the ground-floor balconies look like skulls and the pillars look like bones. Spooky or cool? Both.</p></div>
+  <div class="fact"><span class="emoji">🌊</span><p>Gaudí <strong>hated straight lines</strong> — he said there are none in nature. Every surface in the building curves, waves, or spirals. Even the doors and windows are irregular shapes.</p></div>
+  <div class="fact"><span class="emoji">💎</span><p>The facade is covered in <strong>broken ceramic tiles</strong> (trencadís), a technique Gaudí popularised. He sourced fragments from local ceramic factories — essentially making art from industrial waste.</p></div>
+  <div class="fact"><span class="emoji">🏗️</span><p>Originally built in 1877, Gaudí was commissioned by industrialist <strong>Josep Batlló</strong> in 1904 to renovate it. Neighbours thought he was mad. The result? A UNESCO World Heritage Site.</p></div>
+</div>
+
+<div class="card">
+  <h2>🧠 Trivia</h2>
+  <div class="trivia-box">
+    <h3>🇪🇸 Barcelona Brain Teaser</h3>
+    <p class="question">Casa Batlló is one of <em>how many</em> Gaudí buildings on Passeig de Gràcia?</p>
+    <button onclick="document.getElementById('trivia1-answer').style.display='block'">Reveal Answer</button>
+    <div class="answer" id="trivia1-answer"><strong>Two!</strong> Casa Batlló at number 43 and Casa Milà (La Pedrera) at number 92. They're both UNESCO sites and both absolutely bonkers. Gaudí really did turn this street into his personal gallery.</div>
+  </div>
+  <div class="trivia-box" style="margin-top:12px">
+    <h3>🤔 Quick Quiz</h3>
+    <p class="question">What does "Batlló" mean in Catalan?</p>
+    <button onclick="document.getElementById('trivia2-answer').style.display='block'">Reveal Answer</button>
+    <div class="answer" id="trivia2-answer">It's actually a surname! <strong>Josep Batlló i Casanovas</strong> was the textile industrialist who commissioned Gaudí to redesign the building. The name doesn't have a particular meaning — it's just the family's name.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>😂 Joke</h2>
+  <div class="joke">
+    <div class="q">Why did Gaudí refuse to use a ruler?</div>
+    <div class="a">Because he didn't want anyone drawing the line! 📐</div>
+  </div>
+  <div class="joke" style="margin-top:8px">
+    <div class="q">What did the Casa Batlló say to the Sagrada Família?</div>
+    <div class="a">"You think you take a long time? I've been under construction since 1904 too!" 🏗️</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📍 Location</h2>
+  <div class="map-wrap">
+    <iframe src="https://maps.google.com/maps?q=Casa+Batll%C3%B3%2C+Barcelona&output=embed" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
