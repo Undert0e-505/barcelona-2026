@@ -45,7 +45,9 @@ barcelona-2026/
 
 ### Two page types
 
-1. **Calendar grid** (`index.html`) — shows all 4 days with hourly time slots, event blocks positioned by time, photo headers per day
+1. **Calendar grid** (`index.html`) — dual view:
+   - **Desktop:** 4-column grid with hourly rows (06:00–23:00), time labels on left, photo headers per day, events positioned absolutely by time
+   - **Mobile (≤900px):** Swipeable day-by-day slider with the same hourly time grid, photo header, dot indicators, and tab navigation
 2. **Detail pages** (`<id>.html`) — one per activity, with hero, info card, fun facts, trivia, jokes, and map
 
 ---
@@ -214,11 +216,20 @@ Each detail page uses a two-stop gradient from the accent colour to a darker sha
 
 ### Calendar Grid
 
-- **4 columns** (one per day) on desktop, **1 column + tabs** on mobile (≤900px)
-- **Time labels** on the left: 06:00–23:00, 60px per hour
+- **Desktop (>900px):** 4 columns (one per day), time labels on left (06:00–23:00), 60px per hour
+- **Mobile (≤900px):** Swipeable slider — one day at a time with the same hourly time grid, photo header, dot indicators, and tab buttons for quick jumps
 - **Events** positioned absolutely within their hour cell using `top` offset for minute precision and `height` based on duration
 - **Photo headers** per day column (100px tall, opacity 0.4, gradient fade to background)
 - **Hover effects**: events scale up with shadow, photo headers brighten to 0.6 opacity
+
+### Mobile Slider
+
+- Touch swipe left/right between days (tracks finger in real-time)
+- Direction detection: vertical scroll still works; only horizontal swipes change days
+- CSS transition on release (0.35s cubic-bezier ease-out)
+- Dot indicators at bottom (tap to jump)
+- Day tabs at top (tap to jump)
+- Same hourly time grid as desktop — scrollable vertically within each day
 
 ### Animations
 
@@ -241,8 +252,7 @@ Every detail page has:
 | Breakpoint | Layout |
 |-----------|--------|
 | > 900px | 4-column grid with photo headers |
-| 600–900px | 2-column grid (future enhancement) |
-| ≤ 600px | Single column + horizontal day tabs with photo backgrounds |
+| ≤ 900px | Swipeable day slider with hourly time grid, photo header, dots + tabs |
 
 ---
 
