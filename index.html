@@ -17,10 +17,6 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .top-bar h1{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .top-bar .dates{font-size:.8rem;color:var(--text2);font-weight:500}
 
-/* Desktop: day tabs (hidden on mobile) */
-.day-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;gap:8px;padding:12px 16px 0;position:relative;z-index:1;display:none}
-@media(max-width:900px){.day-tabs-desktop{display:none!important}}
-
 .day-tabs{display:flex;overflow-x:auto;gap:8px;padding:12px 16px;position:relative;z-index:1}
 .day-tab{flex-shrink:0;padding:10px 20px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px;position:relative;overflow:hidden;min-height:40px}
 .day-tab .tab-photo{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.25;transition:opacity .3s}
@@ -52,12 +48,12 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .grid-event .ge-time{font-size:.6rem;opacity:.75;font-weight:500;margin-top:1px}
 
 /* === MOBILE SLIDER === */
-.mobile-slider{display:none;position:relative;overflow:hidden;touch-action:pan-y}
+.mobile-slider{display:none;position:relative;overflow:hidden}
 .slider-track{display:flex;transition:transform .35s cubic-bezier(.25,.8,.25,1)}
 .slider-track.dragging{transition:none}
 .slide{min-width:100%;flex-shrink:0}
 
-.slide-header{position:relative;height:120px;overflow:hidden;border-radius:16px 16px 0 0}
+.slide-header{position:relative;height:120px;overflow:hidden}
 .slide-header img{width:100%;height:100%;object-fit:cover;opacity:.5}
 .slide-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(transparent,var(--surface))}
 .slide-header-info{position:absolute;bottom:12px;left:16px;z-index:2}
@@ -65,43 +61,33 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .slide-header-info .sh-date{font-size:1.8rem;font-weight:900;line-height:1}
 .slide-header-info .sh-month{font-size:.85rem;color:var(--text2);font-weight:500}
 
-.slide-body{background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 16px 16px;padding:12px}
+.slide-grid{background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 16px 16px;overflow:hidden}
+.slide-row{display:flex;border-bottom:1px solid rgba(255,255,255,.03);min-height:var(--hour-h);position:relative}
+.slide-row:nth-child(odd){background:rgba(255,255,255,.01)}
+.slide-time-label{width:44px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:flex-end;padding:4px 6px 0 0;font-size:.6rem;color:var(--text2);opacity:.5;border-right:1px solid var(--border)}
+.slide-cell{flex:1;position:relative;min-height:var(--hour-h)}
 
-.slide-event{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;margin-bottom:8px;text-decoration:none;color:#fff;position:relative;overflow:hidden;transition:transform .2s;animation:eventPop .4s ease both}
-.slide-event:hover{transform:scale(1.02)}
-.slide-event::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .2s}
-.slide-event:hover::before{opacity:1}
-.slide-event .se-icon{font-size:1.4rem;flex-shrink:0}
-.slide-event .se-info{flex:1;min-width:0}
-.slide-event .se-title{font-weight:700;font-size:.9rem}
-.slide-event .se-time{font-size:.75rem;opacity:.8;font-weight:500}
-.slide-event .se-tag{font-size:.6rem;opacity:.5;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.slide-event{position:absolute;left:4px;right:4px;border-radius:10px;padding:8px 10px;overflow:hidden;cursor:pointer;z-index:10;text-decoration:none;color:#fff;display:flex;flex-direction:column;justify-content:center;animation:eventPop .4s ease both}
+.slide-event:active{transform:scale(.97)}
+.slide-event .se-icon{position:absolute;top:6px;right:8px;font-size:1.1rem;opacity:.5}
+.slide-event .se-title{font-weight:700;font-size:.82rem;line-height:1.2;padding-right:22px}
+.slide-event .se-time{font-size:.65rem;opacity:.8;font-weight:500;margin-top:2px}
 
-.slide-free{padding:12px 16px;text-align:center;color:var(--text2);font-size:.85rem;font-style:italic;opacity:.4}
-
-/* Dots indicator */
 .slide-dots{display:flex;justify-content:center;gap:8px;padding:16px 0}
 .slide-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer}
 .slide-dot.active{background:var(--accent);transform:scale(1.3)}
 
-/* Mobile time labels */
-.slide-time{font-size:.65rem;color:var(--text2);opacity:.5;padding:4px 0 4px 4px}
-
 @keyframes eventPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
 .particle{position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:0;animation:float linear infinite}
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
 
-/* === RESPONSIVE === */
 @media(max-width:900px){
   .grid-container{display:none!important}
-  .day-tabs{display:flex!important}
   .mobile-slider{display:block!important}
 }
 @media(min-width:901px){
   .grid-container{display:grid!important}
-  .day-tabs{display:flex!important}
   .mobile-slider{display:none!important}
   .slide-dots{display:none!important}
 }
@@ -119,10 +105,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 <div class="day-tabs" id="dayTabs"></div>
 
 <div class="calendar-wrap">
-  <!-- Desktop grid -->
   <div class="grid-container" id="calendar"></div>
-
-  <!-- Mobile slider -->
   <div class="mobile-slider" id="mobileSlider">
     <div class="slider-track" id="sliderTrack"></div>
     <div class="slide-dots" id="slideDots"></div>
@@ -157,55 +140,28 @@ function formatEnd(start,dur){const m=timeToMin(start)+dur;return`${String(Math.
 function buildDesktopGrid(){
   const cal = document.getElementById("calendar");
   cal.innerHTML = "";
-
-  // Corner
-  const corner = document.createElement("div");
-  corner.className = "grid-corner";
-  cal.appendChild(corner);
-
-  // Day headers
+  const corner = document.createElement("div"); corner.className = "grid-corner"; cal.appendChild(corner);
   DAYS.forEach(day => {
-    const hdr = document.createElement("div");
-    hdr.className = "grid-day-header";
+    const hdr = document.createElement("div"); hdr.className = "grid-day-header";
     hdr.innerHTML = `<img class="dh-photo" src="${day.photo}" alt="" onerror="this.style.display='none'"><div class="dh-name">${day.name}</div><div class="dh-num">${day.num}</div><div class="dh-month">${day.month}</div>`;
     cal.appendChild(hdr);
   });
-
-  // Hours
   for(let h = START_HOUR; h < END_HOUR; h++){
-    const timeCell = document.createElement("div");
-    timeCell.className = "grid-time";
-    timeCell.textContent = `${String(h).padStart(2,"0")}:00`;
-    cal.appendChild(timeCell);
-
+    const tc = document.createElement("div"); tc.className = "grid-time"; tc.textContent = `${String(h).padStart(2,"0")}:00`; cal.appendChild(tc);
     DAYS.forEach((day,di) => {
-      const cell = document.createElement("div");
-      cell.className = "grid-hour";
-      cell.dataset.day = di;
-      cell.dataset.hour = h;
-      cal.appendChild(cell);
+      const cell = document.createElement("div"); cell.className = "grid-hour"; cell.dataset.day = di; cell.dataset.hour = h; cal.appendChild(cell);
     });
   }
-
-  // Events
   EVENTS.forEach((ev,idx) => {
-    const dayIdx = DAYS.findIndex(d => d.date === ev.day);
-    if(dayIdx === -1) return;
-    const startMin = timeToMin(ev.start);
-    const startHour = Math.floor(startMin / 60);
-    const startOffsetMin = startMin - startHour * 60;
-    const topOffset = (startOffsetMin / 60) * HOUR_H;
-    const cell = cal.querySelector(`.grid-hour[data-day="${dayIdx}"][data-hour="${startHour}"]`);
-    if(!cell) return;
-
-    const el = document.createElement("a");
-    el.href = ev.detail ? `${ev.id}.html` : "#";
+    const dayIdx = DAYS.findIndex(d => d.date === ev.day); if(dayIdx === -1) return;
+    const startMin = timeToMin(ev.start); const startHour = Math.floor(startMin/60);
+    const topOffset = ((startMin - startHour*60)/60)*HOUR_H;
+    const cell = cal.querySelector(`.grid-hour[data-day="${dayIdx}"][data-hour="${startHour}"]`); if(!cell) return;
+    const el = document.createElement("a"); el.href = ev.detail ? `${ev.id}.html` : "#";
     if(!ev.detail) el.onclick = e => e.preventDefault();
-    el.className = "grid-event";
-    el.style.backgroundColor = ev.colour;
-    el.style.height = Math.max(30, (ev.duration / 60) * HOUR_H) + "px";
-    el.style.top = topOffset + "px";
-    el.style.animationDelay = `${0.2 + idx * 0.08}s`;
+    el.className = "grid-event"; el.style.backgroundColor = ev.colour;
+    el.style.height = Math.max(30,(ev.duration/60)*HOUR_H)+"px"; el.style.top = topOffset+"px";
+    el.style.animationDelay = `${0.2+idx*0.08}s`;
     el.innerHTML = `<span class="ge-icon">${ev.icon}</span><div class="ge-title">${ev.title}</div><div class="ge-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>`;
     cell.appendChild(el);
   });
@@ -213,81 +169,55 @@ function buildDesktopGrid(){
 
 /* ========== MOBILE SLIDER ========== */
 let currentSlide = 0;
-let touchStartX = 0;
-let touchStartY = 0;
-let touchCurrentX = 0;
-let isDragging = false;
-let isHorizontalSwipe = null;
+let touchStartX = 0, touchStartY = 0, touchCurrentX = 0;
+let isDragging = false, isHorizontalSwipe = null;
 
 function buildMobileSlider(){
   const track = document.getElementById("sliderTrack");
   const dots = document.getElementById("slideDots");
-  track.innerHTML = "";
-  dots.innerHTML = "";
+  track.innerHTML = ""; dots.innerHTML = "";
 
   DAYS.forEach((day, di) => {
-    const slide = document.createElement("div");
-    slide.className = "slide";
+    const slide = document.createElement("div"); slide.className = "slide";
 
-    // Header with photo
-    const header = document.createElement("div");
-    header.className = "slide-header";
+    // Photo header
+    const header = document.createElement("div"); header.className = "slide-header";
     header.innerHTML = `<img src="${day.photo}" alt="" onerror="this.style.display='none'"><div class="slide-header-info"><div class="sh-name">${day.name}</div><div class="sh-date">${day.num}</div><div class="sh-month">${day.month}</div></div>`;
     slide.appendChild(header);
 
-    // Body with events
-    const body = document.createElement("div");
-    body.className = "slide-body";
+    // Time grid
+    const grid = document.createElement("div"); grid.className = "slide-grid";
+    const dayEvents = EVENTS.filter(e => e.day === day.date).sort((a,b) => timeToMin(a.start)-timeToMin(b.start));
 
-    const dayEvents = EVENTS.filter(e => e.day === day.date).sort((a,b) => timeToMin(a.start) - timeToMin(b.start));
-
-    if(dayEvents.length === 0){
-      body.innerHTML = `<div class="slide-free">No activities yet — stay tuned ✨</div>`;
-    } else {
-      let currentTime = START_HOUR * 60;
-      dayEvents.forEach((ev, ei) => {
-        const evStart = timeToMin(ev.start);
-        // Show time label
-        const timeLabel = document.createElement("div");
-        timeLabel.className = "slide-time";
-        timeLabel.textContent = `${String(Math.floor(currentTime/60)).padStart(2,"0")}:${String(currentTime%60).padStart(2,"0")}`;
-        body.appendChild(timeLabel);
-
-        // Free time gap
-        if(evStart > currentTime + 30){
-          const freeDiv = document.createElement("div");
-          freeDiv.className = "slide-free";
-          const gapH = Math.floor((evStart - currentTime)/60);
-          const gapM = (evStart - currentTime)%60;
-          freeDiv.textContent = gapH > 0 ? `✨ ${gapH}h${gapM > 0 ? ' '+gapM+'m' : ''} free time` : `✨ ${gapM}m free time`;
-          body.appendChild(freeDiv);
-        }
-
-        // Event card
-        const evEl = document.createElement("a");
-        evEl.href = ev.detail ? `${ev.id}.html` : "#";
-        if(!ev.detail) evEl.onclick = e => e.preventDefault();
-        evEl.className = "slide-event";
-        evEl.style.backgroundColor = ev.colour;
-        evEl.style.animationDelay = `${0.1 + ei * 0.08}s`;
-        evEl.innerHTML = `<span class="se-icon">${ev.icon}</span><div class="se-info"><div class="se-title">${ev.title}</div><div class="se-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div><div class="se-tag">${ev.tag}</div></div>`;
-        body.appendChild(evEl);
-
-        currentTime = evStart + ev.duration;
-      });
+    for(let h = START_HOUR; h < END_HOUR; h++){
+      const row = document.createElement("div"); row.className = "slide-row";
+      const label = document.createElement("div"); label.className = "slide-time-label"; label.textContent = `${String(h).padStart(2,"0")}:00`;
+      const cell = document.createElement("div"); cell.className = "slide-cell"; cell.dataset.hour = h;
+      row.appendChild(label); row.appendChild(cell); grid.appendChild(row);
     }
 
-    slide.appendChild(body);
-    track.appendChild(slide);
+    // Place events
+    dayEvents.forEach((ev,ei) => {
+      const startMin = timeToMin(ev.start);
+      const startHour = Math.floor(startMin/60);
+      const topOffset = ((startMin - startHour*60)/60)*HOUR_H;
+      const cell = grid.querySelector(`.slide-cell[data-hour="${startHour}"]`); if(!cell) return;
+      const el = document.createElement("a"); el.href = ev.detail ? `${ev.id}.html` : "#";
+      if(!ev.detail) el.onclick = e => e.preventDefault();
+      el.className = "slide-event"; el.style.backgroundColor = ev.colour;
+      el.style.height = Math.max(30,(ev.duration/60)*HOUR_H)+"px"; el.style.top = topOffset+"px";
+      el.style.animationDelay = `${0.1+ei*0.08}s`;
+      el.innerHTML = `<span class="se-icon">${ev.icon}</span><div class="se-title">${ev.title}</div><div class="se-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>`;
+      cell.appendChild(el);
+    });
+
+    slide.appendChild(grid); track.appendChild(slide);
 
     // Dot
-    const dot = document.createElement("div");
-    dot.className = "slide-dot" + (di === currentSlide ? " active" : "");
-    dot.onclick = () => goToSlide(di);
-    dots.appendChild(dot);
+    const dot = document.createElement("div"); dot.className = "slide-dot" + (di === currentSlide ? " active" : "");
+    dot.onclick = () => goToSlide(di); dots.appendChild(dot);
   });
 
-  // Set initial position
   goToSlide(currentSlide, false);
   setupSwipe();
 }
@@ -295,102 +225,51 @@ function buildMobileSlider(){
 function goToSlide(index, animate = true){
   currentSlide = Math.max(0, Math.min(index, DAYS.length - 1));
   const track = document.getElementById("sliderTrack");
-  if(animate){
-    track.classList.remove("dragging");
-  }
+  if(animate) track.classList.remove("dragging");
   track.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-  // Update dots
-  document.querySelectorAll(".slide-dot").forEach((dot, i) => {
-    dot.classList.toggle("active", i === currentSlide);
-  });
-
-  // Update tabs
-  document.querySelectorAll(".day-tab").forEach((tab, i) => {
-    tab.classList.toggle("active", i === currentSlide);
-  });
+  document.querySelectorAll(".slide-dot").forEach((d,i) => d.classList.toggle("active", i === currentSlide));
+  document.querySelectorAll(".day-tab").forEach((t,i) => t.classList.toggle("active", i === currentSlide));
 }
 
 function setupSwipe(){
   const slider = document.getElementById("mobileSlider");
-  const track = document.getElementById("sliderTrack");
-
-  // Remove old listeners
   slider.removeEventListener("touchstart", onTouchStart);
   slider.removeEventListener("touchmove", onTouchMove);
   slider.removeEventListener("touchend", onTouchEnd);
-
   slider.addEventListener("touchstart", onTouchStart, {passive: false});
   slider.addEventListener("touchmove", onTouchMove, {passive: false});
   slider.addEventListener("touchend", onTouchEnd);
 }
 
-function onTouchStart(e){
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-  touchCurrentX = touchStartX;
-  isDragging = true;
-  isHorizontalSwipe = null;
-}
-
+function onTouchStart(e){ touchStartX=e.touches[0].clientX; touchStartY=e.touches[0].clientY; touchCurrentX=touchStartX; isDragging=true; isHorizontalSwipe=null; }
 function onTouchMove(e){
   if(!isDragging) return;
-  const dx = e.touches[0].clientX - touchStartX;
-  const dy = e.touches[0].clientY - touchStartY;
-
-  // Determine swipe direction on first significant movement
-  if(isHorizontalSwipe === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)){
-    isHorizontalSwipe = Math.abs(dx) > Math.abs(dy);
-  }
-
+  const dx=e.touches[0].clientX-touchStartX, dy=e.touches[0].clientY-touchStartY;
+  if(isHorizontalSwipe===null && (Math.abs(dx)>8||Math.abs(dy)>8)) isHorizontalSwipe=Math.abs(dx)>Math.abs(dy);
   if(!isHorizontalSwipe) return;
-
-  e.preventDefault();
-  touchCurrentX = e.touches[0].clientX;
-  const track = document.getElementById("sliderTrack");
-  track.classList.add("dragging");
-  const offset = -currentSlide * 100 + (dx / sliderWidth() * 100);
-  track.style.transform = `translateX(${offset}%)`;
+  e.preventDefault(); touchCurrentX=e.touches[0].clientX;
+  const track=document.getElementById("sliderTrack"); track.classList.add("dragging");
+  const offset=-currentSlide*100+(dx/sliderWidth()*100);
+  track.style.transform=`translateX(${offset}%)`;
 }
-
 function onTouchEnd(){
-  if(!isDragging) return;
-  isDragging = false;
-
-  const track = document.getElementById("sliderTrack");
-  track.classList.remove("dragging");
-
-  if(!isHorizontalSwipe){
-    goToSlide(currentSlide);
-    return;
-  }
-
-  const dx = touchCurrentX - touchStartX;
-  const threshold = sliderWidth() * 0.15;
-
-  if(dx > threshold && currentSlide > 0){
-    goToSlide(currentSlide - 1);
-  } else if(dx < -threshold && currentSlide < DAYS.length - 1){
-    goToSlide(currentSlide + 1);
-  } else {
-    goToSlide(currentSlide);
-  }
+  if(!isDragging) return; isDragging=false;
+  const track=document.getElementById("sliderTrack"); track.classList.remove("dragging");
+  if(!isHorizontalSwipe){goToSlide(currentSlide);return;}
+  const dx=touchCurrentX-touchStartX, threshold=sliderWidth()*0.15;
+  if(dx>threshold&&currentSlide>0) goToSlide(currentSlide-1);
+  else if(dx<-threshold&&currentSlide<DAYS.length-1) goToSlide(currentSlide+1);
+  else goToSlide(currentSlide);
 }
-
-function sliderWidth(){
-  return document.getElementById("mobileSlider").offsetWidth || window.innerWidth;
-}
+function sliderWidth(){return document.getElementById("mobileSlider").offsetWidth||window.innerWidth;}
 
 /* ========== DAY TABS ========== */
 function buildDayTabs(){
-  const tabs = document.getElementById("dayTabs");
-  tabs.innerHTML = "";
+  const tabs = document.getElementById("dayTabs"); tabs.innerHTML = "";
   DAYS.forEach((day,di) => {
-    const tab = document.createElement("button");
-    tab.className = "day-tab" + (di === currentSlide ? " active" : "");
+    const tab = document.createElement("button"); tab.className = "day-tab" + (di === currentSlide ? " active" : "");
     tab.innerHTML = `<img class="tab-photo" src="${day.photo}" alt="" onerror="this.style.display='none'"><span class="tab-text">${day.name} ${day.num}</span>`;
-    tab.onclick = () => goToSlide(di);
-    tabs.appendChild(tab);
+    tab.onclick = () => goToSlide(di); tabs.appendChild(tab);
   });
 }
 
@@ -406,18 +285,13 @@ function createParticles(){
   }
 }
 
-/* ========== INIT ========== */
 buildDesktopGrid();
 buildDayTabs();
 buildMobileSlider();
 createParticles();
 
 let resizeTimer;
-window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{
-  buildDesktopGrid();
-  buildDayTabs();
-  buildMobileSlider();
-},200)});
+window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{buildDesktopGrid();buildDayTabs();buildMobileSlider();},200)});
 </script>
 </body>
 </html>
