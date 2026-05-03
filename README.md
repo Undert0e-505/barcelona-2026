@@ -294,9 +294,12 @@ interface Day {
 - Make them genuinely interesting, not just easy
 
 ### Jokes
-- 1–2 per activity
-- Can be genuinely funny or deliberately terrible (dad jokes welcome)
-- Keep them short — setup on one line, punchline on the next
+- 2 per activity
+- **Must be genuinely funny** — observational, dry, a bit sharp. No dad jokes, no puns, no "why did the X cross the Y"
+- Specific to the activity or travel context is a bonus
+- Mildly edgy is fine; no swearing, no offensive content
+- Think: what would make a witty 15-year-old actually laugh
+- Keep them short — setup 1 line, punchline 1 line
 
 ### Info Card
 - Use `info-row` pairs (label / value)
