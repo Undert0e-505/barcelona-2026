@@ -8,103 +8,79 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;--text:#e8eaf0;--text2:#8892b0;--accent:#ff6b6b;--accent2:#4ecdc4}
+:root{--bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;--text:#e8eaf0;--text2:#8892b0;--accent:#ff6b6b;--accent2:#4ecdc4;--hour-h:60px}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(91,141,239,.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(168,85,247,.06) 0%,transparent 50%);pointer-events:none;z-index:0}
 
-.top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:20px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
-.top-bar-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.top-bar h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
-.top-bar .dates{font-size:.85rem;color:var(--text2);font-weight:500}
-.breadcrumb{font-size:.8rem;color:var(--text2);margin-bottom:8px}
-.breadcrumb a{color:var(--accent2);text-decoration:none}
-.breadcrumb a:hover{text-decoration:underline}
+.top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
+.top-bar-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.top-bar h1{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.top-bar .dates{font-size:.8rem;color:var(--text2);font-weight:500}
 
-.calendar-wrap{max-width:1600px;margin:0 auto;padding:24px;position:relative;z-index:1}
+/* Mobile day tabs */
+.day-tabs{display:none;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:8px;padding:12px 16px 0;position:sticky;top:52px;z-index:99;background:var(--bg)}
+.day-tab{flex-shrink:0;padding:8px 16px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-family:'Poppins',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.day-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-/* === DAY OVERVIEW (4 columns) === */
-.days-overview{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;transition:all .4s ease}
-.days-overview.focused{grid-template-columns:1fr}
+.calendar-wrap{max-width:1600px;margin:0 auto;padding:16px;position:relative;z-index:1}
 
-.day-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s,border-color .3s;animation:fadeUp .5s ease both}
-.day-card:nth-child(1){animation-delay:.05s}.day-card:nth-child(2){animation-delay:.1s}.day-card:nth-child(3){animation-delay:.15s}.day-card:nth-child(4){animation-delay:.2s}
-.day-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);border-color:rgba(255,255,255,.15)}
-.day-card.active{border-color:var(--accent);box-shadow:0 0 30px rgba(255,107,107,.15)}
+/* === GRID VIEW === */
+.grid-container{display:grid;grid-template-columns:50px repeat(4,1fr);gap:0;border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--border)}
 
-.day-photo{height:160px;position:relative;overflow:hidden}
-.day-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.day-card:hover .day-photo img{transform:scale(1.05)}
-.day-photo::after{content:'';position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(transparent,var(--surface))}
-.day-photo-label{position:absolute;bottom:12px;left:16px;z-index:2}
-.day-photo-label .day-name{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;opacity:.7}
-.day-photo-label .day-num{font-size:2rem;font-weight:900;line-height:1}
-.day-photo-label .day-month{font-size:.8rem;font-weight:500;opacity:.6}
+/* Corner cell */
+.grid-corner{background:var(--surface);border-bottom:1px solid var(--border);border-right:1px solid var(--border);height:var(--hour-h);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--text2)}
 
-.day-events{padding:16px}
-.day-event{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:8px;text-decoration:none;color:#fff;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;animation:popIn .4s ease both}
-.day-event:nth-child(1){animation-delay:.15s}.day-event:nth-child(2){animation-delay:.2s}.day-event:nth-child(3){animation-delay:.25s}.day-event:nth-child(4){animation-delay:.3s}
-.day-event:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 6px 20px rgba(0,0,0,.3)}
-.day-event::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .2s}
-.day-event:hover::before{opacity:1}
-.day-event .ev-icon{font-size:1.3rem;flex-shrink:0}
-.day-event .ev-info{flex:1;min-width:0}
-.day-event .ev-title{font-weight:700;font-size:.85rem;line-height:1.3}
-.day-event .ev-time{font-size:.7rem;opacity:.75;font-weight:500}
-.day-event .ev-tag{font-size:.55rem;opacity:.5;text-transform:uppercase;letter-spacing:1px}
+/* Day headers */
+.grid-day-header{background:var(--surface);border-bottom:1px solid var(--border);padding:8px 4px;text-align:center;height:var(--hour-h);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.grid-day-header .dh-photo{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.2;transition:opacity .3s}
+.grid-day-header:hover .dh-photo{opacity:.35}
+.grid-day-header .dh-name{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);position:relative;z-index:1}
+.grid-day-header .dh-num{font-size:1.4rem;font-weight:900;line-height:1.1;position:relative;z-index:1}
+.grid-day-header .dh-month{font-size:.65rem;color:var(--text2);font-weight:500;position:relative;z-index:1}
 
-.day-free{padding:8px 12px;font-size:.75rem;color:var(--text2);opacity:.4;font-style:italic;text-align:center}
+/* Day header colours */
+.grid-day-header:nth-child(2){border-right:1px solid var(--border)}
+.grid-day-header:nth-child(3){border-right:1px solid var(--border)}
+.grid-day-header:nth-child(4){border-right:1px solid var(--border)}
 
-/* === FOCUSED DAY VIEW === */
-.focused-view{display:none}
-.focused-view.visible{display:block;animation:fadeUp .4s ease}
+/* Time label cells */
+.grid-time{background:var(--surface);border-right:1px solid var(--border);border-bottom:1px solid rgba(255,255,255,.03);height:var(--hour-h);display:flex;align-items:flex-start;justify-content:flex-end;padding:4px 8px 0 0;font-size:.6rem;color:var(--text2);opacity:.5}
 
-.focused-hero{height:220px;border-radius:20px;overflow:hidden;position:relative;margin-bottom:24px}
-.focused-hero img{width:100%;height:100%;object-fit:cover}
-.focused-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(transparent,var(--bg))}
-.focused-hero-content{position:absolute;bottom:20px;left:24px;z-index:2}
-.focused-hero-content h2{font-size:2rem;font-weight:900;color:#fff}
-.focused-hero-content .sub{color:rgba(255,255,255,.7);font-size:.9rem}
+/* Hour cells */
+.grid-hour{border-right:1px solid var(--border);border-bottom:1px solid rgba(255,255,255,.03);height:var(--hour-h);position:relative}
+.grid-hour:nth-child(odd){background:rgba(255,255,255,.01)}
+/* Remove right border from last day column */
+.grid-hour:nth-child(4n){border-right:none}
 
-.focused-timeline{max-width:700px;margin:0 auto}
+/* Events positioned absolutely within their day column */
+.grid-event{position:absolute;left:3px;right:3px;border-radius:10px;padding:6px 10px;overflow:hidden;cursor:pointer;z-index:10;text-decoration:none;color:#fff;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;justify-content:center;animation:eventPop .4s ease both}
+.grid-event:hover{transform:scale(1.03);box-shadow:0 6px 24px rgba(0,0,0,.4);z-index:20}
+.grid-event::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .2s}
+.grid-event:hover::before{opacity:1}
+.grid-event .ge-icon{position:absolute;top:4px;right:8px;font-size:1rem;opacity:.5}
+.grid-event .ge-title{font-weight:700;font-size:.75rem;line-height:1.2;padding-right:20px}
+.grid-event .ge-time{font-size:.6rem;opacity:.75;font-weight:500;margin-top:1px}
 
-.timeline-item{display:flex;gap:16px;margin-bottom:16px;animation:fadeUp .4s ease both}
-.timeline-item:nth-child(1){animation-delay:.1s}.timeline-item:nth-child(2){animation-delay:.15s}.timeline-item:nth-child(3){animation-delay:.2s}.timeline-item:nth-child(4){animation-delay:.25s}.timeline-item:nth-child(5){animation-delay:.3s}
+@keyframes eventPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 
-.timeline-time{width:60px;flex-shrink:0;text-align:right;padding-top:14px}
-.timeline-time .hour{font-size:1rem;font-weight:700;color:var(--text)}
-.timeline-time .mins{font-size:.65rem;color:var(--text2)}
-
-.timeline-dot{width:16px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
-.timeline-dot .dot{width:12px;height:12px;border-radius:50%;border:2px solid;flex-shrink:0}
-.timeline-dot .line{width:2px;flex:1;min-height:20px;background:var(--border)}
-
-.timeline-card{flex:1;border-radius:16px;padding:16px 20px;text-decoration:none;color:#fff;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;display:block}
-.timeline-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.timeline-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .2s}
-.timeline-card:hover::before{opacity:1}
-.timeline-card .tc-icon{font-size:1.5rem;position:absolute;top:12px;right:16px;opacity:.5}
-.timeline-card .tc-title{font-weight:700;font-size:1rem}
-.timeline-card .tc-time{font-size:.8rem;opacity:.8;margin-top:2px;font-weight:500}
-.timeline-card .tc-tag{font-size:.6rem;opacity:.5;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
-
-.timeline-free{flex:1;padding:12px 16px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;text-align:center;color:var(--text2);font-size:.85rem;font-style:italic;opacity:.5}
-
-.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--accent2);background:none;border:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;padding:8px 0;margin-bottom:16px;transition:transform .2s}
-.back-btn:hover{transform:translateX(-4px)}
-
-/* Particle animation */
+/* Particle */
 .particle{position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:0;animation:float linear infinite}
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 
+/* === MOBILE === */
 @media(max-width:900px){
-  .days-overview{grid-template-columns:1fr 1fr;gap:12px}
-  .day-photo{height:120px}
+  .day-tabs{display:flex}
+  .grid-container{grid-template-columns:40px 1fr}
+  .grid-day-header{display:none}
+  .grid-corner{display:none}
+  .grid-time{width:40px;font-size:.55rem}
+  .grid-hour.hidden-day{display:none}
+  .grid-hour.visible-day{display:block}
+  /* Show all hours for the active day */
 }
-@media(max-width:600px){
-  .days-overview{grid-template-columns:1fr}
-  .day-photo{height:140px}
+@media(min-width:901px){
+  .day-tabs{display:none}
+  .grid-hour.hidden-day{display:block}
 }
 </style>
 </head>
@@ -112,17 +88,16 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 
 <div class="top-bar">
   <div class="top-bar-inner">
-    <h1 onclick="showOverview()">🇪🇸 Barcelona 2026</h1>
+    <h1>🇪🇸 Barcelona 2026</h1>
     <div class="dates">Wed 27 – Sat 30 May</div>
   </div>
 </div>
 
-<div class="calendar-wrap">
-  <!-- OVERVIEW: 4 day cards -->
-  <div class="days-overview" id="overview"></div>
+<!-- Mobile day tabs -->
+<div class="day-tabs" id="dayTabs"></div>
 
-  <!-- FOCUSED: single day detail -->
-  <div class="focused-view" id="focused"></div>
+<div class="calendar-wrap">
+<div class="grid-container" id="calendar"></div>
 </div>
 
 <script>
@@ -136,134 +111,129 @@ const EVENTS = [
 ];
 
 const DAYS = [
-  {date:"2026-05-27",name:"Wednesday",num:"27",month:"May",photo:"https://images.unsplash.com/photo-1583422409516-289651eaf851?w=600&h=300&fit=crop",photoAlt:"Barcelona coast"},
-  {date:"2026-05-28",name:"Thursday",num:"28",month:"May",photo:"https://images.unsplash.com/photo-1523531294919-4289d28ddb0d?w=600&h=300&fit=crop",photoAlt:"Casa Batlló"},
-  {date:"2026-05-29",name:"Friday",num:"29",month:"May",photo:"https://images.unsplash.com/photo-1539037106496-6beea8a8240a?w=600&h=300&fit=crop",photoAlt:"Barcelona beach"},
-  {date:"2026-05-30",name:"Saturday",num:"30",month:"May",photo:"https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=600&h=300&fit=crop",photoAlt:"Barcelona aerial"}
+  {date:"2026-05-27",name:"WED",num:"27",month:"May",full:"Wednesday",photo:"https://images.unsplash.com/photo-1583422409516-289651eaf851?w=600&h=200&fit=crop"},
+  {date:"2026-05-28",name:"THU",num:"28",month:"May",full:"Thursday",photo:"https://images.unsplash.com/photo-1523531294919-4289d28ddb0d?w=600&h=200&fit=crop"},
+  {date:"2026-05-29",name:"FRI",num:"29",month:"May",full:"Friday",photo:"https://images.unsplash.com/photo-1539037106496-6beea8a8240a?w=600&h=200&fit=crop"},
+  {date:"2026-05-30",name:"SAT",num:"30",month:"May",full:"Saturday",photo:"https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=600&h=200&fit=crop"}
 ];
 
-function formatEnd(start,dur){const m=timeToMin(start)+dur;return`${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`}
+const START_HOUR = 6;
+const END_HOUR = 24;
+const HOUR_H = 60;
+
 function timeToMin(t){const[h,m]=t.split(":").map(Number);return h*60+m}
+function formatEnd(start,dur){const m=timeToMin(start)+dur;return`${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`}
 
-function showOverview(){
-  document.getElementById('overview').style.display='grid';
-  document.getElementById('focused').classList.remove('visible');
-  buildOverview();
-}
+let activeDay = 0;
 
-function showDay(dayDate){
-  const day = DAYS.find(d=>d.date===dayDate);
-  if(!day) return;
-  document.getElementById('overview').style.display='none';
-  const fv = document.getElementById('focused');
-  fv.classList.add('visible');
+function buildCalendar(){
+  const cal = document.getElementById("calendar");
+  cal.innerHTML = "";
 
-  const dayEvents = EVENTS.filter(e=>e.day===dayDate).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
-  // Build timeline
-  let html = `<button class="back-btn" onclick="showOverview()">← All days</button>`;
-  html += `<div class="focused-hero"><img src="${day.photo}" alt="${day.photoAlt}" onerror="this.style.display='none'"><div class="focused-hero-content"><h2>${day.name} ${day.num} ${day.month}</h2><div class="sub">${dayEvents.length} ${dayEvents.length===1?'activity':'activities'} planned</div></div></div>`;
-  html += `<div class="focused-timeline">`;
+  const isMobile = window.innerWidth <= 900;
 
-  let currentMin = 360; // 06:00
-  dayEvents.forEach(ev => {
-    const evStart = timeToMin(ev.start);
-    // Free time gap
-    if(evStart > currentMin) {
-      const gapH = Math.floor((evStart - currentMin)/60);
-      const gapM = (evStart - currentMin)%60;
-      const gapText = gapH > 0 ? `${gapH}h${gapM > 0 ? ' '+gapM+'m' : ''}` : `${gapM}m`;
-      const freeStart = `${String(Math.floor(currentMin/60)).padStart(2,"0")}:${String(currentMin%60).padStart(2,"0")}`;
-      html += `<div class="timeline-item">`;
-      html += `<div class="timeline-time"><div class="hour">${freeStart}</div></div>`;
-      html += `<div class="timeline-dot"><div class="dot" style="border-color:var(--text2);background:transparent"></div><div class="line"></div></div>`;
-      html += `<div class="timeline-free">✨ ${gapText} free time</div>`;
-      html += `</div>`;
-    }
-    // Event
-    const startH = ev.start.split(":")[0];
-    const startM = ev.start.split(":")[1];
-    html += `<div class="timeline-item">`;
-    html += `<div class="timeline-time"><div class="hour">${startH}:${startM}</div></div>`;
-    html += `<div class="timeline-dot"><div class="dot" style="border-color:${ev.colour};background:${ev.colour}"></div><div class="line" style="background:${ev.colour}33"></div></div>`;
-    if(ev.detail){
-      html += `<a class="timeline-card" href="${ev.id}.html" style="background:${ev.colour}">`;
-    } else {
-      html += `<div class="timeline-card" style="background:${ev.colour};cursor:default">`;
-    }
-    html += `<span class="tc-icon">${ev.icon}</span>`;
-    html += `<div class="tc-title">${ev.title}</div>`;
-    html += `<div class="tc-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>`;
-    html += `<div class="tc-tag">${ev.tag}</div>`;
-    if(ev.detail) html += `</a>`; else html += `</div>`;
-    html += `</div>`;
-    currentMin = evStart + ev.duration;
+  // Corner cell
+  const corner = document.createElement("div");
+  corner.className = "grid-corner";
+  cal.appendChild(corner);
+
+  // Day headers
+  DAYS.forEach((day,di) => {
+    const hdr = document.createElement("div");
+    hdr.className = "grid-day-header";
+    hdr.dataset.day = di;
+    if(isMobile && di !== activeDay) hdr.style.display = "none";
+    hdr.innerHTML = `<img class="dh-photo" src="${day.photo}" alt="" onerror="this.style.display='none'"><div class="dh-name">${day.name}</div><div class="dh-num">${day.num}</div><div class="dh-month">${day.month}</div>`;
+    cal.appendChild(hdr);
   });
 
-  // Free time after last event
-  if(currentMin < 1440){
-    const freeStart = `${String(Math.floor(currentMin/60)).padStart(2,"0")}:${String(currentMin%60).padStart(2,"0")}`;
-    html += `<div class="timeline-item">`;
-    html += `<div class="timeline-time"><div class="hour">${freeStart}</div></div>`;
-    html += `<div class="timeline-dot"><div class="dot" style="border-color:var(--text2);background:transparent"></div></div>`;
-    html += `<div class="timeline-free">✨ Evening free time</div>`;
-    html += `</div>`;
+  // Hours
+  for(let h = START_HOUR; h < END_HOUR; h++){
+    // Time label
+    const timeCell = document.createElement("div");
+    timeCell.className = "grid-time";
+    timeCell.textContent = `${String(h).padStart(2,"0")}:00`;
+    cal.appendChild(timeCell);
+
+    // Day hour cells
+    DAYS.forEach((day,di) => {
+      const cell = document.createElement("div");
+      cell.className = "grid-hour";
+      cell.dataset.day = di;
+      cell.dataset.hour = h;
+
+      if(isMobile && di !== activeDay){
+        cell.classList.add("hidden-day");
+      } else {
+        cell.classList.add("visible-day");
+      }
+
+      cal.appendChild(cell);
+    });
   }
 
-  html += `</div>`;
-  fv.innerHTML = html;
-  window.scrollTo({top:0,behavior:'smooth'});
+  // Place events
+  EVENTS.forEach((ev, idx) => {
+    const dayIdx = DAYS.findIndex(d => d.date === ev.day);
+    if(dayIdx === -1) return;
+    if(isMobile && dayIdx !== activeDay) return;
+
+    const startMin = timeToMin(ev.start);
+    const startHour = Math.floor(startMin / 60);
+    const startOffsetMin = startMin - startHour * 60;
+    const topOffset = (startOffsetMin / 60) * HOUR_H;
+
+    // Find the correct hour cell for this day+hour
+    const cell = cal.querySelector(`.grid-hour[data-day="${dayIdx}"][data-hour="${startHour}"]`);
+    if(!cell) return;
+
+    const el = document.createElement("a");
+    el.href = ev.detail ? `${ev.id}.html` : "#";
+    if(!ev.detail) el.onclick = (e) => e.preventDefault();
+    el.className = "grid-event";
+    el.style.backgroundColor = ev.colour;
+    el.style.height = Math.max(30, (ev.duration / 60) * HOUR_H) + "px";
+    el.style.top = topOffset + "px";
+    el.style.animationDelay = `${0.2 + idx * 0.08}s`;
+
+    el.innerHTML = `<span class="ge-icon">${ev.icon}</span><div class="ge-title">${ev.title}</div><div class="ge-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>`;
+
+    cell.appendChild(el);
+  });
+
+  // Build mobile tabs
+  if(isMobile) buildMobileTabs();
 }
 
-function buildOverview(){
-  const grid = document.getElementById('overview');
-  grid.innerHTML = '';
+function buildMobileTabs(){
+  const tabs = document.getElementById("dayTabs");
+  tabs.innerHTML = "";
   DAYS.forEach((day,di) => {
-    const dayEvents = EVENTS.filter(e=>e.day===day.date).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
-    const card = document.createElement('div');
-    card.className = 'day-card';
-    card.onclick = () => showDay(day.date);
-    card.style.animationDelay = `${di * .05 + .05}s`;
-
-    let html = `<div class="day-photo"><img src="${day.photo}" alt="${day.photoAlt}" onerror="this.parentElement.style.background='linear-gradient(135deg,rgba(91,141,239,.2),rgba(168,85,247,.2))';this.style.display='none'"><div class="day-photo-label"><div class="day-name">${day.name}</div><div class="day-num">${day.num}</div><div class="day-month">${day.month}</div></div></div>`;
-    html += `<div class="day-events">`;
-
-    if(dayEvents.length === 0){
-      html += `<div class="day-free">No activities yet — tap to explore ✨</div>`;
-    } else {
-      dayEvents.forEach(ev => {
-        const target = ev.detail ? `${ev.id}.html` : '#';
-        const onclick = ev.detail ? '' : `onclick="event.stopPropagation();return false"`;
-        html += `<a class="day-event" href="${target}" style="background:${ev.colour}" ${onclick}>`;
-        html += `<span class="ev-icon">${ev.icon}</span>`;
-        html += `<div class="ev-info"><div class="ev-title">${ev.title}</div><div class="ev-time">${ev.start}${ev.duration>60?" – "+formatEnd(ev.start,ev.duration):""}</div><div class="ev-tag">${ev.tag}</div></div>`;
-        html += `</a>`;
-      });
-    }
-
-    html += `</div>`;
-    card.innerHTML = html;
-    grid.appendChild(card);
+    const tab = document.createElement("button");
+    tab.className = "day-tab" + (di === activeDay ? " active" : "");
+    tab.textContent = `${day.name} ${day.num}`;
+    tab.onclick = () => { activeDay = di; buildCalendar(); };
+    tabs.appendChild(tab);
   });
 }
 
 // Particles
 function createParticles(){
   const colours = ['#ff6b6b33','#5b8def33','#a855f733','#4ecdc433','#fb923c33'];
-  for(let i=0;i<12;i++){
-    const p=document.createElement('div');
-    p.className='particle';
-    p.style.left=Math.random()*100+'%';
-    p.style.animationDuration=(15+Math.random()*25)+'s';
-    p.style.animationDelay=Math.random()*10+'s';
-    p.style.background=colours[Math.floor(Math.random()*colours.length)];
-    p.style.width=(3+Math.random()*4)+'px';
-    p.style.height=p.style.width;
+  for(let i=0;i<10;i++){
+    const p=document.createElement('div');p.className='particle';
+    p.style.left=Math.random()*100+'%';p.style.animationDuration=(15+Math.random()*25)+'s';
+    p.style.animationDelay=Math.random()*10+'s';p.style.background=colours[Math.floor(Math.random()*colours.length)];
+    p.style.width=(3+Math.random()*4)+'px';p.style.height=p.style.width;
     document.body.appendChild(p);
   }
 }
 
-buildOverview();
+buildCalendar();
 createParticles();
+
+let resizeTimer;
+window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(buildCalendar,200)});
 </script>
 </body>
 </html>
