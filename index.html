@@ -8,239 +8,262 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;
-  --text:#e8eaf0;--text2:#8892b0;--accent:#ff6b6b;--accent2:#4ecdc4;
-  --blue:#5b8def;--purple:#a855f7;--green:#34d399;--orange:#fb923c;
-}
+:root{--bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;--text:#e8eaf0;--text2:#8892b0;--accent:#ff6b6b;--accent2:#4ecdc4}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-/* Animated gradient bg */
-body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(91,141,239,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(168,85,247,.08) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(255,107,107,.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(91,141,239,.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(168,85,247,.06) 0%,transparent 50%);pointer-events:none;z-index:0}
 
 .top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:20px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
-.top-bar-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.top-bar h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.top-bar-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.top-bar h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
 .top-bar .dates{font-size:.85rem;color:var(--text2);font-weight:500}
+.breadcrumb{font-size:.8rem;color:var(--text2);margin-bottom:8px}
+.breadcrumb a{color:var(--accent2);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
 
-.calendar-wrap{max-width:1400px;margin:0 auto;padding:24px;position:relative;z-index:1}
+.calendar-wrap{max-width:1600px;margin:0 auto;padding:24px;position:relative;z-index:1}
 
-/* Day columns */
-.days-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+/* === DAY OVERVIEW (4 columns) === */
+.days-overview{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;transition:all .4s ease}
+.days-overview.focused{grid-template-columns:1fr}
 
-.day-col{background:var(--surface);border-radius:16px;border:1px solid var(--border);overflow:hidden;animation:fadeSlideUp .6s ease both}
-.day-col:nth-child(1){animation-delay:.1s}
-.day-col:nth-child(2){animation-delay:.2s}
-.day-col:nth-child(3){animation-delay:.3s}
-.day-col:nth-child(4){animation-delay:.4s}
+.day-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s,border-color .3s;animation:fadeUp .5s ease both}
+.day-card:nth-child(1){animation-delay:.05s}.day-card:nth-child(2){animation-delay:.1s}.day-card:nth-child(3){animation-delay:.15s}.day-card:nth-child(4){animation-delay:.2s}
+.day-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);border-color:rgba(255,255,255,.15)}
+.day-card.active{border-color:var(--accent);box-shadow:0 0 30px rgba(255,107,107,.15)}
 
-.day-header{padding:16px;text-align:center;position:relative;overflow:hidden}
-.day-header::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
-.day-name{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;opacity:.6}
-.day-date{font-size:1.3rem;font-weight:800;margin-top:2px}
-.day-month{font-size:.8rem;font-weight:500;opacity:.5;margin-top:2px}
+.day-photo{height:160px;position:relative;overflow:hidden}
+.day-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.day-card:hover .day-photo img{transform:scale(1.05)}
+.day-photo::after{content:'';position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(transparent,var(--surface))}
+.day-photo-label{position:absolute;bottom:12px;left:16px;z-index:2}
+.day-photo-label .day-name{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;opacity:.7}
+.day-photo-label .day-num{font-size:2rem;font-weight:900;line-height:1}
+.day-photo-label .day-month{font-size:.8rem;font-weight:500;opacity:.6}
 
-/* Specific day header colours */
-.day-col:nth-child(1) .day-header{background:linear-gradient(135deg,rgba(91,141,239,.15),transparent)}
-.day-col:nth-child(2) .day-header{background:linear-gradient(135deg,rgba(168,85,247,.15),transparent)}
-.day-col:nth-child(3) .day-header{background:linear-gradient(135deg,rgba(255,107,107,.15),transparent)}
-.day-col:nth-child(4) .day-header{background:linear-gradient(135deg,rgba(52,211,153,.15),transparent)}
+.day-events{padding:16px}
+.day-event{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:8px;text-decoration:none;color:#fff;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;animation:popIn .4s ease both}
+.day-event:nth-child(1){animation-delay:.15s}.day-event:nth-child(2){animation-delay:.2s}.day-event:nth-child(3){animation-delay:.25s}.day-event:nth-child(4){animation-delay:.3s}
+.day-event:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.day-event::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .2s}
+.day-event:hover::before{opacity:1}
+.day-event .ev-icon{font-size:1.3rem;flex-shrink:0}
+.day-event .ev-info{flex:1;min-width:0}
+.day-event .ev-title{font-weight:700;font-size:.85rem;line-height:1.3}
+.day-event .ev-time{font-size:.7rem;opacity:.75;font-weight:500}
+.day-event .ev-tag{font-size:.55rem;opacity:.5;text-transform:uppercase;letter-spacing:1px}
 
-.day-body{padding:8px;min-height:400px}
+.day-free{padding:8px 12px;font-size:.75rem;color:var(--text2);opacity:.4;font-style:italic;text-align:center}
 
-/* Time slots */
-.time-slot{display:flex;align-items:stretch;min-height:48px;border-top:1px solid var(--border)}
-.time-label{width:40px;font-size:.6rem;color:var(--text2);padding-top:4px;flex-shrink:0;text-align:right;padding-right:8px;opacity:.5}
-.time-slot.empty .time-label{opacity:.4}
+/* === FOCUSED DAY VIEW === */
+.focused-view{display:none}
+.focused-view.visible{display:block;animation:fadeUp .4s ease}
 
-/* Events */
-.event{border-radius:12px;padding:10px 12px;margin:2px 0;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;text-decoration:none;color:#fff;display:block;animation:popIn .4s ease both}
-.event:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:10}
-.event .ev-icon{font-size:1.1rem;position:absolute;top:8px;right:10px;opacity:.7}
-.event .ev-title{font-weight:700;font-size:.82rem;line-height:1.3;padding-right:24px}
-.event .ev-time{font-size:.65rem;opacity:.8;margin-top:3px;font-weight:500}
-.event .ev-tag{font-size:.55rem;opacity:.6;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.focused-hero{height:220px;border-radius:20px;overflow:hidden;position:relative;margin-bottom:24px}
+.focused-hero img{width:100%;height:100%;object-fit:cover}
+.focused-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(transparent,var(--bg))}
+.focused-hero-content{position:absolute;bottom:20px;left:24px;z-index:2}
+.focused-hero-content h2{font-size:2rem;font-weight:900;color:#fff}
+.focused-hero-content .sub{color:rgba(255,255,255,.7);font-size:.9rem}
 
-/* Glow effect on hover */
-.event::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s}
-.event:hover::before{opacity:1}
+.focused-timeline{max-width:700px;margin:0 auto}
 
-/* Free slot */
-.free-slot{min-height:48px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(255,255,255,.03);opacity:0;transition:opacity .3s}
-.day-col:hover .free-slot{opacity:1}
-.free-slot-text{font-size:.65rem;color:var(--text2);opacity:.3;font-style:italic}
+.timeline-item{display:flex;gap:16px;margin-bottom:16px;animation:fadeUp .4s ease both}
+.timeline-item:nth-child(1){animation-delay:.1s}.timeline-item:nth-child(2){animation-delay:.15s}.timeline-item:nth-child(3){animation-delay:.2s}.timeline-item:nth-child(4){animation-delay:.25s}.timeline-item:nth-child(5){animation-delay:.3s}
 
-/* Animations */
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.timeline-time{width:60px;flex-shrink:0;text-align:right;padding-top:14px}
+.timeline-time .hour{font-size:1rem;font-weight:700;color:var(--text)}
+.timeline-time .mins{font-size:.65rem;color:var(--text2)}
 
-/* Responsive */
-@media(max-width:900px){
-  .days-grid{grid-template-columns:1fr;gap:12px}
-  .day-body{min-height:auto}
-  .calendar-wrap{padding:12px}
-}
-@media(min-width:901px) and (max-width:1200px){
-  .days-grid{grid-template-columns:repeat(2,1fr)}
-}
+.timeline-dot{width:16px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.timeline-dot .dot{width:12px;height:12px;border-radius:50%;border:2px solid;flex-shrink:0}
+.timeline-dot .line{width:2px;flex:1;min-height:20px;background:var(--border)}
 
-/* Floating particles */
+.timeline-card{flex:1;border-radius:16px;padding:16px 20px;text-decoration:none;color:#fff;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;display:block}
+.timeline-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.timeline-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .2s}
+.timeline-card:hover::before{opacity:1}
+.timeline-card .tc-icon{font-size:1.5rem;position:absolute;top:12px;right:16px;opacity:.5}
+.timeline-card .tc-title{font-weight:700;font-size:1rem}
+.timeline-card .tc-time{font-size:.8rem;opacity:.8;margin-top:2px;font-weight:500}
+.timeline-card .tc-tag{font-size:.6rem;opacity:.5;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+.timeline-free{flex:1;padding:12px 16px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;text-align:center;color:var(--text2);font-size:.85rem;font-style:italic;opacity:.5}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--accent2);background:none;border:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;padding:8px 0;margin-bottom:16px;transition:transform .2s}
+.back-btn:hover{transform:translateX(-4px)}
+
+/* Particle animation */
 .particle{position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:0;animation:float linear infinite}
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+
+@media(max-width:900px){
+  .days-overview{grid-template-columns:1fr 1fr;gap:12px}
+  .day-photo{height:120px}
+}
+@media(max-width:600px){
+  .days-overview{grid-template-columns:1fr}
+  .day-photo{height:140px}
+}
 </style>
 </head>
 <body>
 
 <div class="top-bar">
   <div class="top-bar-inner">
-    <h1>🇪🇸 Barcelona 2026</h1>
+    <h1 onclick="showOverview()">🇪🇸 Barcelona 2026</h1>
     <div class="dates">Wed 27 – Sat 30 May</div>
   </div>
 </div>
 
 <div class="calendar-wrap">
-<div class="days-grid" id="calendar"></div>
+  <!-- OVERVIEW: 4 day cards -->
+  <div class="days-overview" id="overview"></div>
+
+  <!-- FOCUSED: single day detail -->
+  <div class="focused-view" id="focused"></div>
 </div>
 
 <script>
 const EVENTS = [
   {id:"flight-out",title:"Fly to Barcelona",day:"2026-05-27",start:"07:00",duration:195,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true},
   {id:"arrive-bcn",title:"Arrive in Barcelona",day:"2026-05-27",start:"10:15",duration:60,icon:"🛬",colour:"#43A047",tag:"travel",detail:true},
-  {id:"checkin",title:"Check In",day:"2026-05-27",start:"16:00",duration:60,icon:"🏠",colour:"#FF7043",tag:"accommodation",detail:true},
+  {id:"checkin",title:"Check In",day:"2026-05-27",start:"16:00",duration:60,icon:"🏠",colour:"#FF7043",tag:"stays",detail:true},
   {id:"casa-batllo",title:"Casa Batlló",day:"2026-05-28",start:"09:00",duration:120,icon:"🏛️",colour:"#E040FB",tag:"sights",detail:true},
-  {id:"checkout",title:"Checkout",day:"2026-05-30",start:"10:00",duration:30,icon:"🔑",colour:"#78909C",tag:"general",detail:false},
+  {id:"checkout",title:"Checkout",day:"2026-05-30",start:"10:00",duration:30,icon:"🔑",colour:"#78909C",tag:"stays",detail:false},
   {id:"flight-home",title:"Fly Home",day:"2026-05-30",start:"10:50",duration:90,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true}
 ];
 
 const DAYS = [
-  {date:"2026-05-27",name:"Wednesday",num:"27",month:"May"},
-  {date:"2026-05-28",name:"Thursday",num:"28",month:"May"},
-  {date:"2026-05-29",name:"Friday",num:"29",month:"May"},
-  {date:"2026-05-30",name:"Saturday",num:"30",month:"May"}
+  {date:"2026-05-27",name:"Wednesday",num:"27",month:"May",photo:"https://images.unsplash.com/photo-1583422409516-289651eaf851?w=600&h=300&fit=crop",photoAlt:"Barcelona coast"},
+  {date:"2026-05-28",name:"Thursday",num:"28",month:"May",photo:"https://images.unsplash.com/photo-1523531294919-4289d28ddb0d?w=600&h=300&fit=crop",photoAlt:"Casa Batlló"},
+  {date:"2026-05-29",name:"Friday",num:"29",month:"May",photo:"https://images.unsplash.com/photo-1539037106496-6beea8a8240a?w=600&h=300&fit=crop",photoAlt:"Barcelona beach"},
+  {date:"2026-05-30",name:"Saturday",num:"30",month:"May",photo:"https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=600&h=300&fit=crop",photoAlt:"Barcelona aerial"}
 ];
 
-const START_HOUR = 6;
-const END_HOUR = 24;
-
-function timeToMin(t){const[h,m]=t.split(":").map(Number);return h*60+m}
 function formatEnd(start,dur){const m=timeToMin(start)+dur;return`${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`}
+function timeToMin(t){const[h,m]=t.split(":").map(Number);return h*60+m}
 
-function buildCalendar(){
-  const grid = document.getElementById("calendar");
-  grid.innerHTML = "";
+function showOverview(){
+  document.getElementById('overview').style.display='grid';
+  document.getElementById('focused').classList.remove('visible');
+  buildOverview();
+}
 
+function showDay(dayDate){
+  const day = DAYS.find(d=>d.date===dayDate);
+  if(!day) return;
+  document.getElementById('overview').style.display='none';
+  const fv = document.getElementById('focused');
+  fv.classList.add('visible');
+
+  const dayEvents = EVENTS.filter(e=>e.day===dayDate).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+  // Build timeline
+  let html = `<button class="back-btn" onclick="showOverview()">← All days</button>`;
+  html += `<div class="focused-hero"><img src="${day.photo}" alt="${day.photoAlt}" onerror="this.style.display='none'"><div class="focused-hero-content"><h2>${day.name} ${day.num} ${day.month}</h2><div class="sub">${dayEvents.length} ${dayEvents.length===1?'activity':'activities'} planned</div></div></div>`;
+  html += `<div class="focused-timeline">`;
+
+  let currentMin = 360; // 06:00
+  dayEvents.forEach(ev => {
+    const evStart = timeToMin(ev.start);
+    // Free time gap
+    if(evStart > currentMin) {
+      const gapH = Math.floor((evStart - currentMin)/60);
+      const gapM = (evStart - currentMin)%60;
+      const gapText = gapH > 0 ? `${gapH}h${gapM > 0 ? ' '+gapM+'m' : ''}` : `${gapM}m`;
+      const freeStart = `${String(Math.floor(currentMin/60)).padStart(2,"0")}:${String(currentMin%60).padStart(2,"0")}`;
+      html += `<div class="timeline-item">`;
+      html += `<div class="timeline-time"><div class="hour">${freeStart}</div></div>`;
+      html += `<div class="timeline-dot"><div class="dot" style="border-color:var(--text2);background:transparent"></div><div class="line"></div></div>`;
+      html += `<div class="timeline-free">✨ ${gapText} free time</div>`;
+      html += `</div>`;
+    }
+    // Event
+    const startH = ev.start.split(":")[0];
+    const startM = ev.start.split(":")[1];
+    html += `<div class="timeline-item">`;
+    html += `<div class="timeline-time"><div class="hour">${startH}:${startM}</div></div>`;
+    html += `<div class="timeline-dot"><div class="dot" style="border-color:${ev.colour};background:${ev.colour}"></div><div class="line" style="background:${ev.colour}33"></div></div>`;
+    if(ev.detail){
+      html += `<a class="timeline-card" href="${ev.id}.html" style="background:${ev.colour}">`;
+    } else {
+      html += `<div class="timeline-card" style="background:${ev.colour};cursor:default">`;
+    }
+    html += `<span class="tc-icon">${ev.icon}</span>`;
+    html += `<div class="tc-title">${ev.title}</div>`;
+    html += `<div class="tc-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>`;
+    html += `<div class="tc-tag">${ev.tag}</div>`;
+    if(ev.detail) html += `</a>`; else html += `</div>`;
+    html += `</div>`;
+    currentMin = evStart + ev.duration;
+  });
+
+  // Free time after last event
+  if(currentMin < 1440){
+    const freeStart = `${String(Math.floor(currentMin/60)).padStart(2,"0")}:${String(currentMin%60).padStart(2,"0")}`;
+    html += `<div class="timeline-item">`;
+    html += `<div class="timeline-time"><div class="hour">${freeStart}</div></div>`;
+    html += `<div class="timeline-dot"><div class="dot" style="border-color:var(--text2);background:transparent"></div></div>`;
+    html += `<div class="timeline-free">✨ Evening free time</div>`;
+    html += `</div>`;
+  }
+
+  html += `</div>`;
+  fv.innerHTML = html;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildOverview(){
+  const grid = document.getElementById('overview');
+  grid.innerHTML = '';
   DAYS.forEach((day,di) => {
-    const col = document.createElement("div");
-    col.className = "day-col";
+    const dayEvents = EVENTS.filter(e=>e.day===day.date).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    card.onclick = () => showDay(day.date);
+    card.style.animationDelay = `${di * .05 + .05}s`;
 
-    // Header
-    const hdr = document.createElement("div");
-    hdr.className = "day-header";
-    hdr.innerHTML = `<div class="day-name">${day.name}</div><div class="day-date">${day.num}</div><div class="day-month">${day.month}</div>`;
-    col.appendChild(hdr);
+    let html = `<div class="day-photo"><img src="${day.photo}" alt="${day.photoAlt}" onerror="this.parentElement.style.background='linear-gradient(135deg,rgba(91,141,239,.2),rgba(168,85,247,.2))';this.style.display='none'"><div class="day-photo-label"><div class="day-name">${day.name}</div><div class="day-num">${day.num}</div><div class="day-month">${day.month}</div></div></div>`;
+    html += `<div class="day-events">`;
 
-    const body = document.createElement("div");
-    body.className = "day-body";
-
-    const dayEvents = EVENTS.filter(e => e.day === day.date).sort((a,b) => timeToMin(a.start)-timeToMin(b.start));
-    let currentMin = START_HOUR * 60;
-    let eventIdx = 0;
-
-    while(currentMin < END_HOUR * 60){
-      const hour = Math.floor(currentMin / 60);
-      const slotStartMin = currentMin;
-
-      // Check if there's an event starting at this time
-      if(eventIdx < dayEvents.length && timeToMin(dayEvents[eventIdx].start) === slotStartMin){
-        const ev = dayEvents[eventIdx];
-        const evEl = document.createElement("a");
-        evEl.href = ev.detail ? `${ev.id}.html` : "#";
-        if(!ev.detail) evEl.onclick = () => false;
-        evEl.className = "event";
-        evEl.style.backgroundColor = ev.colour;
-        evEl.style.animationDelay = `${0.3 + di * 0.1 + eventIdx * 0.05}s`;
-
-        // Height based on duration: 48px per hour
-        const heightPx = Math.max(48, (ev.duration / 60) * 48);
-        evEl.style.minHeight = heightPx + "px";
-
-        evEl.innerHTML = `
-          <span class="ev-icon">${ev.icon}</span>
-          <div class="ev-title">${ev.title}</div>
-          <div class="ev-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>
-          <div class="ev-tag">${ev.tag}</div>
-        `;
-        body.appendChild(evEl);
-        currentMin += ev.duration;
-        eventIdx++;
-      } else if(eventIdx < dayEvents.length && timeToMin(dayEvents[eventIdx].start) > slotStartMin){
-        // Free slot until next event
-        const nextStart = timeToMin(dayEvents[eventIdx].start);
-        const gapMin = nextStart - slotStartMin;
-        // Show hour markers in the gap
-        if(gapMin >= 60){
-          const freeDiv = document.createElement("div");
-          freeDiv.className = "time-slot";
-          const timeLabel = document.createElement("div");
-          timeLabel.className = "time-label";
-          timeLabel.textContent = `${String(hour).padStart(2,"0")}:00`;
-          const freeContent = document.createElement("div");
-          freeContent.className = "free-slot-text";
-          freeContent.textContent = gapMin >= 120 ? "free time ✨" : "";
-          freeDiv.appendChild(timeLabel);
-          freeDiv.appendChild(freeContent);
-          body.appendChild(freeDiv);
-        } else {
-          const freeDiv = document.createElement("div");
-          freeDiv.style.minHeight = (gapMin / 60) * 48 + "px";
-          body.appendChild(freeDiv);
-        }
-        currentMin += Math.min(60, gapMin);
-      } else {
-        // No more events, show empty hour
-        const freeDiv = document.createElement("div");
-        freeDiv.className = "time-slot";
-        const timeLabel = document.createElement("div");
-        timeLabel.className = "time-label";
-        timeLabel.textContent = `${String(hour).padStart(2,"0")}:00`;
-        const freeContent = document.createElement("div");
-        freeContent.className = "free-slot-text";
-        freeContent.textContent = "free time ✨";
-        freeDiv.appendChild(timeLabel);
-        freeDiv.appendChild(freeContent);
-        body.appendChild(freeDiv);
-        currentMin += 60;
-      }
+    if(dayEvents.length === 0){
+      html += `<div class="day-free">No activities yet — tap to explore ✨</div>`;
+    } else {
+      dayEvents.forEach(ev => {
+        const target = ev.detail ? `${ev.id}.html` : '#';
+        const onclick = ev.detail ? '' : `onclick="event.stopPropagation();return false"`;
+        html += `<a class="day-event" href="${target}" style="background:${ev.colour}" ${onclick}>`;
+        html += `<span class="ev-icon">${ev.icon}</span>`;
+        html += `<div class="ev-info"><div class="ev-title">${ev.title}</div><div class="ev-time">${ev.start}${ev.duration>60?" – "+formatEnd(ev.start,ev.duration):""}</div><div class="ev-tag">${ev.tag}</div></div>`;
+        html += `</a>`;
+      });
     }
 
-    col.appendChild(body);
-    grid.appendChild(col);
+    html += `</div>`;
+    card.innerHTML = html;
+    grid.appendChild(card);
   });
 }
 
-// Floating particles
+// Particles
 function createParticles(){
   const colours = ['#ff6b6b33','#5b8def33','#a855f733','#4ecdc433','#fb923c33'];
-  for(let i = 0; i < 15; i++){
-    const p = document.createElement("div");
-    p.className = "particle";
-    p.style.left = Math.random() * 100 + "%";
-    p.style.animationDuration = (15 + Math.random() * 25) + "s";
-    p.style.animationDelay = Math.random() * 10 + "s";
-    p.style.background = colours[Math.floor(Math.random()*colours.length)];
-    p.style.width = (3 + Math.random() * 4) + "px";
-    p.style.height = p.style.width;
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(15+Math.random()*25)+'s';
+    p.style.animationDelay=Math.random()*10+'s';
+    p.style.background=colours[Math.floor(Math.random()*colours.length)];
+    p.style.width=(3+Math.random()*4)+'px';
+    p.style.height=p.style.width;
     document.body.appendChild(p);
   }
 }
 
-buildCalendar();
+buildOverview();
 createParticles();
-
-// Rebuild on resize for responsiveness
-let resizeTimer;
-window.addEventListener("resize", () => {clearTimeout(resizeTimer);resizeTimer=setTimeout(buildCalendar,200)});
 </script>
 </body>
 </html>
