@@ -8,250 +8,239 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#FFF8F0 0%,#E8F4FD 50%,#FFF3E0 100%);min-height:100vh;color:#333}
-.top-bar{background:linear-gradient(90deg,#E53935,#FF7043,#FFB74D);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15)}
-.top-bar h1{color:#fff;font-size:1.5rem;font-weight:800;text-shadow:1px 2px 4px rgba(0,0,0,.2)}
-.top-bar h1 span{font-size:1.1rem;font-weight:500;opacity:.9}
-.calendar-wrap{padding:20px;overflow-x:auto}
-.calendar{display:grid;grid-template-columns:60px repeat(4,1fr);gap:0;min-width:900px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 8px 32px rgba(0,0,0,.08)}
-.day-header{padding:14px 8px;text-align:center;font-weight:700;font-size:.95rem;background:linear-gradient(135deg,#FF7043,#E53935);color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,.2)}
-.day-header.sun{background:linear-gradient(135deg,#FFB74D,#FF9800)}
-.day-header.sat{background:linear-gradient(135deg,#43A047,#66BB6A)}
-.day-header .date{font-size:.75rem;font-weight:500;opacity:.85;margin-top:2px}
-.time-col{background:#FAFAFA}
-.time-label{height:60px;display:flex;align-items:flex-start;justify-content:center;font-size:.65rem;color:#999;padding-top:4px;border-bottom:1px solid #F0F0F0}
-.day-col{position:relative}
-.hour-slot{height:60px;border-bottom:1px solid #F0F0F0;border-right:1px solid #F0F0F0;position:relative}
-.hour-slot:nth-child(odd){background:#FAFCFF}
-.event{position:absolute;left:4px;right:4px;border-radius:10px;padding:8px 10px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;z-index:10;display:flex;flex-direction:column;justify-content:center;text-decoration:none;color:#fff}
-.event:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:20}
-.event .ev-title{font-weight:700;font-size:.8rem;line-height:1.2}
-.event .ev-time{font-size:.65rem;opacity:.85;margin-top:2px}
-.event .ev-icon{font-size:1.1rem;position:absolute;top:6px;right:8px}
-.corner{background:#FAFAFA;border-bottom:1px solid #F0F0F0;border-right:1px solid #F0F0F0;height:60px;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#999}
-.footer{text-align:center;padding:24px;color:#999;font-size:.8rem}
-.footer a{color:#E53935;text-decoration:none;font-weight:600}
-@media(max-width:768px){
-  .calendar-wrap{padding:10px}
-  .calendar{min-width:800px}
-  .top-bar h1{font-size:1.2rem}
+:root{
+  --bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;
+  --text:#e8eaf0;--text2:#8892b0;--accent:#ff6b6b;--accent2:#4ecdc4;
+  --blue:#5b8def;--purple:#a855f7;--green:#34d399;--orange:#fb923c;
 }
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* Animated gradient bg */
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(91,141,239,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(168,85,247,.08) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(255,107,107,.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+.top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:20px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
+.top-bar-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.top-bar h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.top-bar .dates{font-size:.85rem;color:var(--text2);font-weight:500}
+
+.calendar-wrap{max-width:1400px;margin:0 auto;padding:24px;position:relative;z-index:1}
+
+/* Day columns */
+.days-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+.day-col{background:var(--surface);border-radius:16px;border:1px solid var(--border);overflow:hidden;animation:fadeSlideUp .6s ease both}
+.day-col:nth-child(1){animation-delay:.1s}
+.day-col:nth-child(2){animation-delay:.2s}
+.day-col:nth-child(3){animation-delay:.3s}
+.day-col:nth-child(4){animation-delay:.4s}
+
+.day-header{padding:16px;text-align:center;position:relative;overflow:hidden}
+.day-header::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.day-name{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:2px;opacity:.6}
+.day-date{font-size:1.3rem;font-weight:800;margin-top:2px}
+.day-month{font-size:.8rem;font-weight:500;opacity:.5;margin-top:2px}
+
+/* Specific day header colours */
+.day-col:nth-child(1) .day-header{background:linear-gradient(135deg,rgba(91,141,239,.15),transparent)}
+.day-col:nth-child(2) .day-header{background:linear-gradient(135deg,rgba(168,85,247,.15),transparent)}
+.day-col:nth-child(3) .day-header{background:linear-gradient(135deg,rgba(255,107,107,.15),transparent)}
+.day-col:nth-child(4) .day-header{background:linear-gradient(135deg,rgba(52,211,153,.15),transparent)}
+
+.day-body{padding:8px;min-height:400px}
+
+/* Time slots */
+.time-slot{display:flex;align-items:stretch;min-height:48px;border-top:1px solid var(--border)}
+.time-label{width:40px;font-size:.6rem;color:var(--text2);padding-top:4px;flex-shrink:0;text-align:right;padding-right:8px;opacity:.5}
+.time-slot.empty .time-label{opacity:.4}
+
+/* Events */
+.event{border-radius:12px;padding:10px 12px;margin:2px 0;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;text-decoration:none;color:#fff;display:block;animation:popIn .4s ease both}
+.event:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:10}
+.event .ev-icon{font-size:1.1rem;position:absolute;top:8px;right:10px;opacity:.7}
+.event .ev-title{font-weight:700;font-size:.82rem;line-height:1.3;padding-right:24px}
+.event .ev-time{font-size:.65rem;opacity:.8;margin-top:3px;font-weight:500}
+.event .ev-tag{font-size:.55rem;opacity:.6;font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Glow effect on hover */
+.event::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s}
+.event:hover::before{opacity:1}
+
+/* Free slot */
+.free-slot{min-height:48px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(255,255,255,.03);opacity:0;transition:opacity .3s}
+.day-col:hover .free-slot{opacity:1}
+.free-slot-text{font-size:.65rem;color:var(--text2);opacity:.3;font-style:italic}
+
+/* Animations */
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* Responsive */
+@media(max-width:900px){
+  .days-grid{grid-template-columns:1fr;gap:12px}
+  .day-body{min-height:auto}
+  .calendar-wrap{padding:12px}
+}
+@media(min-width:901px) and (max-width:1200px){
+  .days-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Floating particles */
+.particle{position:fixed;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:0;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
 </style>
 </head>
 <body>
+
 <div class="top-bar">
-  <h1>🇪🇸 Barcelona 2026 <span>· May 27–30</span></h1>
+  <div class="top-bar-inner">
+    <h1>🇪🇸 Barcelona 2026</h1>
+    <div class="dates">Wed 27 – Sat 30 May</div>
+  </div>
 </div>
+
 <div class="calendar-wrap">
-<div class="calendar" id="calendar"></div>
-</div>
-<div class="footer">
-  Built by Jimothy 🦎 · <a href="../voting/index.html">🗳️ Vote on Activities</a>
+<div class="days-grid" id="calendar"></div>
 </div>
 
 <script>
 const EVENTS = [
-  {id:"flight-out",title:"Fly to Barcelona",day:"2026-05-27",start:"07:00",duration:195,icon:"✈️",colour:"#1E88E5",detail:true},
-  {id:"arrive-bcn",title:"Arrive in Barcelona",day:"2026-05-27",start:"10:15",duration:60,icon:"🛬",colour:"#43A047",detail:true},
-  {id:"checkin",title:"Check In",day:"2026-05-27",start:"16:00",duration:60,icon:"🏠",colour:"#FF7043",detail:true},
-  {id:"casa-batllo",title:"Casa Batlló",day:"2026-05-28",start:"09:00",duration:120,icon:"🏛️",colour:"#E040FB",detail:true},
-  {id:"checkout",title:"Checkout",day:"2026-05-30",start:"10:00",duration:30,icon:"🔑",colour:"#78909C",detail:false},
-  {id:"flight-home",title:"Fly Home",day:"2026-05-30",start:"10:50",duration:90,icon:"✈️",colour:"#1E88E5",detail:true}
+  {id:"flight-out",title:"Fly to Barcelona",day:"2026-05-27",start:"07:00",duration:195,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true},
+  {id:"arrive-bcn",title:"Arrive in Barcelona",day:"2026-05-27",start:"10:15",duration:60,icon:"🛬",colour:"#43A047",tag:"travel",detail:true},
+  {id:"checkin",title:"Check In",day:"2026-05-27",start:"16:00",duration:60,icon:"🏠",colour:"#FF7043",tag:"accommodation",detail:true},
+  {id:"casa-batllo",title:"Casa Batlló",day:"2026-05-28",start:"09:00",duration:120,icon:"🏛️",colour:"#E040FB",tag:"sights",detail:true},
+  {id:"checkout",title:"Checkout",day:"2026-05-30",start:"10:00",duration:30,icon:"🔑",colour:"#78909C",tag:"general",detail:false},
+  {id:"flight-home",title:"Fly Home",day:"2026-05-30",start:"10:50",duration:90,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true}
 ];
 
 const DAYS = [
-  {date:"2026-05-27",label:"WED",sub:"27 May",cls:""},
-  {date:"2026-05-28",label:"THU",sub:"28 May",cls:""},
-  {date:"2026-05-29",label:"FRI",sub:"29 May",cls:"sun"},
-  {date:"2026-05-30",label:"SAT",sub:"30 May",cls:"sat"}
+  {date:"2026-05-27",name:"Wednesday",num:"27",month:"May"},
+  {date:"2026-05-28",name:"Thursday",num:"28",month:"May"},
+  {date:"2026-05-29",name:"Friday",num:"29",month:"May"},
+  {date:"2026-05-30",name:"Saturday",num:"30",month:"May"}
 ];
 
 const START_HOUR = 6;
 const END_HOUR = 24;
-const SLOT_H = 60; // px per hour
-const MINS_PER_SLOT = 60;
 
-function timeToMinutes(t){const[h,m]=t.split(":").map(Number);return h*60+m}
+function timeToMin(t){const[h,m]=t.split(":").map(Number);return h*60+m}
+function formatEnd(start,dur){const m=timeToMin(start)+dur;return`${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`}
 
 function buildCalendar(){
-  const cal = document.getElementById("calendar");
-  // Corner
-  const corner = document.createElement("div");
-  corner.className = "corner";
-  corner.textContent = "⏰";
-  cal.appendChild(corner);
+  const grid = document.getElementById("calendar");
+  grid.innerHTML = "";
 
-  // Day headers
-  DAYS.forEach(d=>{
+  DAYS.forEach((day,di) => {
+    const col = document.createElement("div");
+    col.className = "day-col";
+
+    // Header
     const hdr = document.createElement("div");
-    hdr.className = "day-header" + (d.cls ? " "+d.cls : "");
-    hdr.innerHTML = `${d.label}<div class="date">${d.sub}</div>`;
-    cal.appendChild(hdr);
-  });
+    hdr.className = "day-header";
+    hdr.innerHTML = `<div class="day-name">${day.name}</div><div class="day-date">${day.num}</div><div class="day-month">${day.month}</div>`;
+    col.appendChild(hdr);
 
-  // Time rows
-  for(let h = START_HOUR; h < END_HOUR; h++){
-    // Time label
-    const tl = document.createElement("div");
-    tl.className = "time-label";
-    tl.textContent = `${String(h).padStart(2,"0")}:00`;
-    cal.appendChild(tl);
-    // Day cells
-    DAYS.forEach(d=>{
-      const cell = document.createElement("div");
-      cell.className = "hour-slot";
-      cell.dataset.day = d.date;
-      cell.dataset.hour = h;
-      cal.appendChild(cell);
-    });
-  }
+    const body = document.createElement("div");
+    body.className = "day-body";
 
-  // Place events
-  EVENTS.forEach(ev => {
-    const startMin = timeToMinutes(ev.start) - START_HOUR*60;
-    const topPx = (startMin / MINS_PER_SLOT) * SLOT_H;
-    const heightPx = (ev.duration / MINS_PER_SLOT) * SLOT_H;
+    const dayEvents = EVENTS.filter(e => e.day === day.date).sort((a,b) => timeToMin(a.start)-timeToMin(b.start));
+    let currentMin = START_HOUR * 60;
+    let eventIdx = 0;
 
-    const el = document.createElement("a");
-    el.href = ev.detail ? `${ev.id}.html` : "#";
-    if(!ev.detail) el.onclick = ()=>false;
-    el.className = "event";
-    el.style.top = topPx + "px";
-    el.style.height = heightPx + "px";
-    el.style.backgroundColor = ev.colour;
-    el.style.color = "#fff";
-    el.innerHTML = `
-      <span class="ev-icon">${ev.icon}</span>
-      <span class="ev-title">${ev.title}</span>
-      <span class="ev-time">${ev.start}${ev.duration>60?" – "+formatEndTime(ev.start,ev.duration):""}</span>
-    `;
+    while(currentMin < END_HOUR * 60){
+      const hour = Math.floor(currentMin / 60);
+      const slotStartMin = currentMin;
 
-    // Find the correct day column cell at the start hour
-    const startH = parseInt(ev.start.split(":")[0]);
-    const startRow = startH - START_HOUR;
-    const dayIdx = DAYS.findIndex(d=>d.date===ev.day);
-    // Position absolutely within the day-col wrapper
-    // We need a container per day column
-    const dayCells = cal.querySelectorAll(`.hour-slot[data-day="${ev.day}"]`);
-    if(dayCells.length > 0){
-      // Create a wrapper for the day column
-      let wrapper = dayCells[0].parentElement.querySelector(".day-event-layer");
-      if(!wrapper){
-        wrapper = document.createElement("div");
-        wrapper.className = "day-event-layer";
-        wrapper.style.cssText = "position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;";
-        // We need to restructure - let's use a different approach
+      // Check if there's an event starting at this time
+      if(eventIdx < dayEvents.length && timeToMin(dayEvents[eventIdx].start) === slotStartMin){
+        const ev = dayEvents[eventIdx];
+        const evEl = document.createElement("a");
+        evEl.href = ev.detail ? `${ev.id}.html` : "#";
+        if(!ev.detail) evEl.onclick = () => false;
+        evEl.className = "event";
+        evEl.style.backgroundColor = ev.colour;
+        evEl.style.animationDelay = `${0.3 + di * 0.1 + eventIdx * 0.05}s`;
+
+        // Height based on duration: 48px per hour
+        const heightPx = Math.max(48, (ev.duration / 60) * 48);
+        evEl.style.minHeight = heightPx + "px";
+
+        evEl.innerHTML = `
+          <span class="ev-icon">${ev.icon}</span>
+          <div class="ev-title">${ev.title}</div>
+          <div class="ev-time">${ev.start} – ${formatEnd(ev.start,ev.duration)}</div>
+          <div class="ev-tag">${ev.tag}</div>
+        `;
+        body.appendChild(evEl);
+        currentMin += ev.duration;
+        eventIdx++;
+      } else if(eventIdx < dayEvents.length && timeToMin(dayEvents[eventIdx].start) > slotStartMin){
+        // Free slot until next event
+        const nextStart = timeToMin(dayEvents[eventIdx].start);
+        const gapMin = nextStart - slotStartMin;
+        // Show hour markers in the gap
+        if(gapMin >= 60){
+          const freeDiv = document.createElement("div");
+          freeDiv.className = "time-slot";
+          const timeLabel = document.createElement("div");
+          timeLabel.className = "time-label";
+          timeLabel.textContent = `${String(hour).padStart(2,"0")}:00`;
+          const freeContent = document.createElement("div");
+          freeContent.className = "free-slot-text";
+          freeContent.textContent = gapMin >= 120 ? "free time ✨" : "";
+          freeDiv.appendChild(timeLabel);
+          freeDiv.appendChild(freeContent);
+          body.appendChild(freeDiv);
+        } else {
+          const freeDiv = document.createElement("div");
+          freeDiv.style.minHeight = (gapMin / 60) * 48 + "px";
+          body.appendChild(freeDiv);
+        }
+        currentMin += Math.min(60, gapMin);
+      } else {
+        // No more events, show empty hour
+        const freeDiv = document.createElement("div");
+        freeDiv.className = "time-slot";
+        const timeLabel = document.createElement("div");
+        timeLabel.className = "time-label";
+        timeLabel.textContent = `${String(hour).padStart(2,"0")}:00`;
+        const freeContent = document.createElement("div");
+        freeContent.className = "free-slot-text";
+        freeContent.textContent = "free time ✨";
+        freeDiv.appendChild(timeLabel);
+        freeDiv.appendChild(freeContent);
+        body.appendChild(freeDiv);
+        currentMin += 60;
       }
     }
-  });
 
-  // Restructure: wrap each day column in a relative container
-  restructureCalendar();
+    col.appendChild(body);
+    grid.appendChild(col);
+  });
 }
 
-function formatEndTime(start, duration){
-  const mins = timeToMinutes(start) + duration;
-  const h = Math.floor(mins/60);
-  const m = mins%60;
-  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`;
-}
-
-function restructureCalendar(){
-  const cal = document.getElementById("calendar");
-  // Remove placed events from DOM (they were appended but not positioned correctly)
-  cal.querySelectorAll(".event").forEach(e=>e.remove());
-
-  // For each day, create a column overlay for events
-  DAYS.forEach((d, di) => {
-    const cells = cal.querySelectorAll(`.hour-slot[data-day="${d.date}"]`);
-    if(cells.length === 0) return;
-    
-    const colWrap = document.createElement("div");
-    colWrap.className = "day-col";
-    colWrap.style.cssText = "position:relative;";
-
-    // Find the header for this day
-    const headers = cal.querySelectorAll(".day-header");
-    // Build a proper grid row approach
-  });
-
-  // Actually let's just place events with absolute positioning relative to the grid
-  // The grid has time-col + 4 day columns, each hour row
-  // Events need position:absolute within their day column
-  
-  // Better approach: use CSS grid with named areas and position events manually
-  // Simplest: use a per-day overlay div
-  
-  const calendarRect = cal.getBoundingClientRect();
-  
-  EVENTS.forEach(ev => {
-    const startMin = timeToMinutes(ev.start) - START_HOUR*60;
-    const topPx = (startMin / MINS_PER_SLOT) * SLOT_H;
-    const heightPx = (ev.duration / MINS_PER_SLOT) * SLOT_H;
-    const dayIdx = DAYS.findIndex(d => d.date === ev.day);
-    if(dayIdx === -1) return;
-
-    const el = document.createElement("a");
-    el.href = ev.detail ? `${ev.id}.html` : "#";
-    if(!ev.detail) el.onclick = () => false;
-    el.className = "event";
-    el.style.backgroundColor = ev.colour;
-    el.innerHTML = `
-      <span class="ev-icon">${ev.icon}</span>
-      <span class="ev-title">${ev.title}</span>
-      <span class="ev-time">${ev.start}${ev.duration>60?" – "+formatEndTime(ev.start,ev.duration):""}</span>
-    `;
-
-    // Position: need to know which grid column
-    // Grid columns: 60px (time) | day0 | day1 | day2 | day3
-    // We'll position absolutely on the calendar div itself
-    el.style.position = "absolute";
-    
-    // We'll compute left/width after render
-    ev._el = el;
-    ev._dayIdx = dayIdx;
-    ev._topPx = topPx;
-    ev._heightPx = heightPx;
-    cal.appendChild(el);
-  });
-
-  // Position events after layout
-  requestAnimationFrame(() => positionEvents());
-}
-
-function positionEvents(){
-  const cal = document.getElementById("calendar");
-  const cells = cal.querySelectorAll(".day-header");
-  const timeLabels = cal.querySelectorAll(".time-label");
-  
-  if(cells.length < 4 || timeLabels.length < 1) return;
-
-  // Get column positions from day headers
-  const calRect = cal.getBoundingClientRect();
-  const colPositions = [];
-  for(let i = 0; i < 4; i++){
-    const r = cells[i].getBoundingClientRect();
-    colPositions.push({left: r.left - calRect.left, width: r.width});
+// Floating particles
+function createParticles(){
+  const colours = ['#ff6b6b33','#5b8def33','#a855f733','#4ecdc433','#fb923c33'];
+  for(let i = 0; i < 15; i++){
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.animationDuration = (15 + Math.random() * 25) + "s";
+    p.style.animationDelay = Math.random() * 10 + "s";
+    p.style.background = colours[Math.floor(Math.random()*colours.length)];
+    p.style.width = (3 + Math.random() * 4) + "px";
+    p.style.height = p.style.width;
+    document.body.appendChild(p);
   }
-
-  // Get top offset from first time label
-  const firstTimeRect = timeLabels[0].getBoundingClientRect();
-  const topOffset = firstTimeRect.top - calRect.top;
-
-  EVENTS.forEach(ev => {
-    if(!ev._el) return;
-    const col = colPositions[ev._dayIdx];
-    if(!col) return;
-    
-    ev._el.style.left = (col.left + 4) + "px";
-    ev._el.style.width = (col.width - 8) + "px";
-    ev._el.style.top = (topOffset + ev._topPx) + "px";
-    ev._el.style.height = ev._heightPx + "px";
-  });
 }
 
-window.addEventListener("resize", positionEvents);
 buildCalendar();
+createParticles();
+
+// Rebuild on resize for responsiveness
+let resizeTimer;
+window.addEventListener("resize", () => {clearTimeout(resizeTimer);resizeTimer=setTimeout(buildCalendar,200)});
 </script>
 </body>
 </html>
