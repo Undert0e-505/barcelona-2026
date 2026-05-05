@@ -122,17 +122,23 @@ window.addEventListener('mousemove', e => { if(!isDragging) return; tx += e.clie
 window.addEventListener('mouseup', () => { isDragging = false; container.classList.remove('dragging'); });
 
 // Touch: pinch + drag
-let touches = [];
+let lastTouchCenter = null;
 container.addEventListener('touchstart', e => {
-  touches = [...e.touches];
-  if(e.touches.length === 1) { isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }
-  if(e.touches.length === 2) { isDragging = false; pinchDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY); }
+  e.preventDefault();
+  if(e.touches.length === 1) {
+    isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+  } else if(e.touches.length === 2) {
+    isDragging = false;
+    pinchDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    lastTouchCenter = { x:(e.touches[0].clientX+e.touches[1].clientX)/2, y:(e.touches[0].clientY+e.touches[1].clientY)/2 };
+  }
 }, {passive: false});
 
 container.addEventListener('touchmove', e => {
   e.preventDefault();
   if(e.touches.length === 1 && isDragging) {
-    tx += e.touches[0].clientX - lastX; ty += e.touches[0].clientY - lastY;
+    const dx = e.touches[0].clientX - lastX, dy = e.touches[0].clientY - lastY;
+    tx += dx; ty += dy;
     lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
     applyTransform();
   } else if(e.touches.length === 2) {
@@ -140,13 +146,28 @@ container.addEventListener('touchmove', e => {
     const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
     const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
     const rect = container.getBoundingClientRect();
+    // Zoom toward pinch center
     const factor = newDist / pinchDist;
     pinchDist = newDist;
     zoomTo(scale * factor, cx - rect.left, cy - rect.top);
+    // Pan to follow pinch center movement
+    if(lastTouchCenter) {
+      tx += cx - lastTouchCenter.x;
+      ty += cy - lastTouchCenter.y;
+      applyTransform();
+    }
+    lastTouchCenter = { x: cx, y: cy };
   }
 }, {passive: false});
 
-container.addEventListener('touchend', e => { isDragging = false; });
+container.addEventListener('touchend', e => {
+  isDragging = false;
+  lastTouchCenter = null;
+  // If going from 2 touches to 1, reset single-finger drag origin
+  if(e.touches.length === 1) {
+    lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+  }
+});
 
 // Buttons
 document.getElementById('zoomIn').onclick = () => {
@@ -174,10 +195,18 @@ if(hash === 'rodalies') {
   document.querySelector('.map-tab[data-map="metro"]').classList.remove('active');
   currentMap = 'rodalies';
 }
-img.onload = () => loadMap(currentMap);
+let mapInitialized = false;
+img.onload = () => { if(!mapInitialized) { mapInitialized = true; loadMap(currentMap); } };
+if(img.complete && !mapInitialized) { mapInitialized = true; loadMap(currentMap); }
 
-let resizeTimer;
-window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => loadMap(currentMap), 200); });
+let lastResizeW = 0, lastResizeH = 0, resizeTimer;
+window.addEventListener('resize', () => {
+  const w = window.innerWidth, h = window.innerHeight;
+  if(w === lastResizeW && h === lastResizeH) return;
+  lastResizeW = w; lastResizeH = h;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => loadMap(currentMap), 300);
+});
 </script>
 </body>
 </html>
