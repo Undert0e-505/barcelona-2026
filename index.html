@@ -114,6 +114,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 
 <script>
 const EVENTS = [
+  {id:"parking-out",title:"Airport Parking",day:"2026-05-27",start:"04:00",duration:30,icon:"🅿️",colour:"#78909C",tag:"travel",detail:false},
   {id:"flight-out",title:"Fly to Barcelona",day:"2026-05-27",start:"07:00",duration:195,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true},
   {id:"arrive-bcn",title:"Arrive in Barcelona",day:"2026-05-27",start:"10:15",duration:60,icon:"🛬",colour:"#43A047",tag:"travel",detail:true},
   {id:"checkin",title:"Check In",day:"2026-05-27",start:"16:00",duration:60,icon:"🏠",colour:"#FF7043",tag:"stays",detail:true},
@@ -122,7 +123,8 @@ const EVENTS = [
   {id:"magic-fountain",title:"Magic Fountain",day:"2026-05-28",start:"20:00",duration:60,icon:"⛲",colour:"#4ECDC4",tag:"sights",detail:true},
   {id:"magic-fountain-fri",title:"Magic Fountain",day:"2026-05-29",start:"20:00",duration:60,icon:"⛲",colour:"#4ECDC4",tag:"sights",detail:true,page:"magic-fountain"},
   {id:"checkout",title:"Checkout",day:"2026-05-30",start:"10:00",duration:30,icon:"🔑",colour:"#78909C",tag:"stays",detail:false},
-  {id:"flight-home",title:"Fly Home",day:"2026-05-30",start:"10:50",duration:90,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true}
+  {id:"flight-home",title:"Fly Home",day:"2026-05-30",start:"10:50",duration:90,icon:"✈️",colour:"#1E88E5",tag:"travel",detail:true},
+  {id:"parking-home",title:"Collect Car",day:"2026-05-30",start:"13:00",duration:30,icon:"🅿️",colour:"#78909C",tag:"travel",detail:false}
 ];
 
 const DAYS = [
@@ -132,7 +134,7 @@ const DAYS = [
   {date:"2026-05-30",name:"SAT",num:"30",month:"May",full:"Saturday",photo:"img/sagrada.jpg"}
 ];
 
-const START_HOUR = 6;
+const START_HOUR = 4;
 const END_HOUR = 24;
 const HOUR_H = 60;
 
