@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🇪🇸 Barcelona Metro Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;--text:#e8eaf0;--text2:#8892b0;--accent:#ff6b6b;--accent2:#4ecdc4}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:100;backdrop-filter:blur(20px)}
+.top-bar h1{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--accent2);text-decoration:none;font-weight:600;font-size:.85rem;transition:transform .2s}
+.back:hover{transform:translateX(-4px)}
+.map-tabs{display:flex;gap:8px;padding:8px 16px;background:var(--surface2);border-bottom:1px solid var(--border);flex-shrink:0}
+.map-tab{padding:8px 16px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.map-tab.active{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.map-container{flex:1;position:relative;overflow:hidden;touch-action:none;cursor:grab;background:var(--bg)}
+.map-container.dragging{cursor:grabbing}
+.map-container img{position:absolute;top:0;left:0;transform-origin:0 0;width:auto;height:auto;max-width:none;max-height:none;-webkit-user-drag:none;pointer-events:none;transition:none}
+.zoom-controls{position:absolute;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:50}
+.zoom-btn{width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
+.zoom-btn:hover{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.zoom-btn:active{transform:scale(.9)}
+.zoom-level{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:.7rem;color:var(--text2);z-index:50;opacity:0;transition:opacity .3s}
+.zoom-level.visible{opacity:1}
+.hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.7);color:#fff;padding:12px 20px;border-radius:12px;font-size:.8rem;pointer-events:none;opacity:0;transition:opacity .5s;z-index:50;text-align:center}
+.hint.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a class="back" href="index.html">← Itinerary</a>
+  <h1>🚇 Transport Maps</h1>
+  <div style="width:70px"></div>
+</div>
+<div class="map-tabs">
+  <button class="map-tab active" data-map="metro">🚇 Metro & FGC</button>
+  <button class="map-tab" data-map="rodalies">🚆 Rodalies</button>
+</div>
+<div class="map-container" id="mapContainer">
+  <img id="mapImage" src="maps/metro-map.png" alt="Barcelona Metro Map" draggable="false">
+</div>
+<div class="zoom-controls">
+  <button class="zoom-btn" id="zoomIn">+</button>
+  <button class="zoom-btn" id="zoomOut">−</button>
+  <button class="zoom-btn" id="zoomReset">⌂</button>
+</div>
+<div class="zoom-level" id="zoomLevel">100%</div>
+<div class="hint" id="hint">Pinch to zoom · Drag to pan</div>
+
+<script>
+const container = document.getElementById('mapContainer');
+const img = document.getElementById('mapImage');
+const zoomLevel = document.getElementById('zoomLevel');
+const hint = document.getElementById('hint');
+
+const maps = {
+  metro: { src: 'maps/metro-map.png', natW: 3600, natH: 2610 },
+  rodalies: { src: 'maps/rodalies-map.png', natW: 3147, natH: 2722 }
+};
+
+let currentMap = 'metro';
+let scale = 1, minScale = 0.3, maxScale = 8;
+let tx = 0, ty = 0;
+let isDragging = false, lastX = 0, lastY = 0;
+let pinchDist = 0;
+let zoomShowTimer;
+
+function loadMap(name) {
+  currentMap = name;
+  const m = maps[name];
+  img.src = m.src;
+  document.querySelectorAll('.map-tab').forEach(t => t.classList.toggle('active', t.dataset.map === name));
+  // Fit to container
+  const cw = container.clientWidth, ch = container.clientHeight;
+  const fitScale = Math.min(cw / m.natW, ch / m.natH);
+  scale = fitScale;
+  minScale = fitScale * 0.5;
+  tx = (cw - m.natW * scale) / 2;
+  ty = (ch - m.natH * scale) / 2;
+  applyTransform();
+}
+
+function applyTransform() {
+  img.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+  showZoom();
+}
+
+function showZoom() {
+  const m = maps[currentMap];
+  const pct = Math.round(scale / Math.min(container.clientWidth / m.natW, container.clientHeight / m.natH) * 100);
+  zoomLevel.textContent = pct + '%';
+  zoomLevel.classList.add('visible');
+  clearTimeout(zoomShowTimer);
+  zoomShowTimer = setTimeout(() => zoomLevel.classList.remove('visible'), 1500);
+}
+
+function zoomTo(newScale, cx, cy) {
+  newScale = Math.max(minScale, Math.min(maxScale, newScale));
+  // Zoom toward (cx, cy) point in container coords
+  tx = cx - (newScale / scale) * (cx - tx);
+  ty = cy - (newScale / scale) * (cy - ty);
+  scale = newScale;
+  applyTransform();
+}
+
+// Mouse wheel zoom
+container.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = container.getBoundingClientRect();
+  const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+  const factor = e.deltaY < 0 ? 1.15 : 1/1.15;
+  zoomTo(scale * factor, cx, cy);
+}, {passive: false});
+
+// Mouse drag
+container.addEventListener('mousedown', e => { isDragging = true; lastX = e.clientX; lastY = e.clientY; container.classList.add('dragging'); });
+window.addEventListener('mousemove', e => { if(!isDragging) return; tx += e.clientX - lastX; ty += e.clientY - lastY; lastX = e.clientX; lastY = e.clientY; applyTransform(); });
+window.addEventListener('mouseup', () => { isDragging = false; container.classList.remove('dragging'); });
+
+// Touch: pinch + drag
+let touches = [];
+container.addEventListener('touchstart', e => {
+  touches = [...e.touches];
+  if(e.touches.length === 1) { isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }
+  if(e.touches.length === 2) { isDragging = false; pinchDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY); }
+}, {passive: false});
+
+container.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if(e.touches.length === 1 && isDragging) {
+    tx += e.touches[0].clientX - lastX; ty += e.touches[0].clientY - lastY;
+    lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+    applyTransform();
+  } else if(e.touches.length === 2) {
+    const newDist = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+    const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    const rect = container.getBoundingClientRect();
+    const factor = newDist / pinchDist;
+    pinchDist = newDist;
+    zoomTo(scale * factor, cx - rect.left, cy - rect.top);
+  }
+}, {passive: false});
+
+container.addEventListener('touchend', e => { isDragging = false; });
+
+// Buttons
+document.getElementById('zoomIn').onclick = () => {
+  const rect = container.getBoundingClientRect();
+  zoomTo(scale * 1.3, rect.width/2, rect.height/2);
+};
+document.getElementById('zoomOut').onclick = () => {
+  const rect = container.getBoundingClientRect();
+  zoomTo(scale / 1.3, rect.width/2, rect.height/2);
+};
+document.getElementById('zoomReset').onclick = () => loadMap(currentMap);
+
+// Tab switching
+document.querySelectorAll('.map-tab').forEach(tab => {
+  tab.onclick = () => loadMap(tab.dataset.map);
+});
+
+// Show hint briefly
+setTimeout(() => { hint.classList.add('show'); setTimeout(() => hint.classList.remove('show'), 3000); }, 500);
+
+// Init
+const hash = window.location.hash.replace('#','');
+if(hash === 'rodalies') {
+  document.querySelector('.map-tab[data-map="rodalies"]').classList.add('active');
+  document.querySelector('.map-tab[data-map="metro"]').classList.remove('active');
+  currentMap = 'rodalies';
+}
+img.onload = () => loadMap(currentMap);
+
+let resizeTimer;
+window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => loadMap(currentMap), 200); });
+</script>
+</body>
+</html>

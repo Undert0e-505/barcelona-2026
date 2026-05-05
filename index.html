@@ -86,6 +86,14 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
   .grid-container{display:none!important}
   .mobile-slider{display:block!important}
 }
+/* ========== TRANSPORT BAR ========== */
+.transport-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1px solid var(--border);padding:10px 16px;display:flex;justify-content:center;gap:12px;backdrop-filter:blur(20px)}
+.transport-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:600;transition:all .2s;cursor:pointer}
+.transport-btn:hover{background:var(--accent2);color:#fff;border-color:var(--accent2);transform:translateY(-2px)}
+.transport-btn .tb-icon{font-size:1.2rem}
+
+body{padding-bottom:68px}
+
 @media(min-width:901px){
   .grid-container{display:grid!important}
   .mobile-slider{display:none!important}
@@ -298,5 +306,15 @@ createParticles();
 let resizeTimer;
 window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{buildDesktopGrid();buildDayTabs();buildMobileSlider();},200)});
 </script>
+
+<div class="transport-bar">
+  <a class="transport-btn" href="maps.html">
+    <span class="tb-icon">🚇</span> Metro &amp; FGC
+  </a>
+  <a class="transport-btn" href="maps.html#rodalies">
+    <span class="tb-icon">🚆</span> Rodalies
+  </a>
+</div>
+
 </body>
 </html>
