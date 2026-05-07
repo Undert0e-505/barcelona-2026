@@ -202,7 +202,7 @@ All detail pages follow this structure:
     <div class="card"><h2>📋 Visit Details</h2><!-- info-row pairs --></div>
     <div class="card"><h2>💡 Fun Facts</h2><!-- fact divs --></div>
     <div class="card"><h2>🧠 Trivia</h2><!-- trivia-box with reveal --></div>
-    <div class="card"><h2>😂 Jokes</h2><!-- joke divs --></div>
+    <div class="card"><!-- jokes --><!-- joke divs --></div>
     <div class="card"><h2>📍 Location</h2><!-- map iframe + open-maps link --></div>
   </div>
 
