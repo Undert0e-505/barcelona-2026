@@ -390,9 +390,9 @@ interface Day {
 | 4 | Check In | Wed 27 May | 16:00 | 1h | stays | ✅ checkin.html |
 | 5 | Sartoria Panatieri | Wed 27 May | 19:30 | 1h30 | food | ✅ sartoria.html |
 | 6 | Casa Batlló | Thu 28 May | 09:00 | 2h | sights | ✅ casa-batllo.html |
-| 7 | Magic Fountain (Thu) | Thu 28 May | 20:00 | 1h | sights | ✅ magic-fountain.html |
-| 8 | Magic Fountain (Fri) | Fri 29 May | 20:00 | 1h | sights | ✅ magic-fountain.html |
-| 9 | Bogatell Beach | Fri 29 May | 10:00 | 5h | beach | ✅ bogatell.html |
+| 7 | Magic Fountain | Fri 29 May | 20:00 | 1h | sights | ✅ magic-fountain.html |
+| 8 | Bogatell Beach | Fri 29 May | 10:00 | 5h | beach | ✅ bogatell.html |
+| 9 | The Venue Steak House | Thu 28 May | 19:00 | 2h | food | ✅ venue-steakhouse.html |
 | 10 | Checkout | Sat 30 May | 10:00 | 30m | general | ❌ no detail page |
 | 11 | Fly Home | Sat 30 May | 10:50 | 1h30 | travel | ✅ flight-home.html |
 | 12 | Collect Car | Sat 30 May | 13:00 | 1h | travel | ✅ parking.html (via page prop) |
