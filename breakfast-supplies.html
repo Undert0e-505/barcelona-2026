@@ -10,32 +10,28 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0e1a;--surface:#131829;--surface2:#1a2035;--border:#252d45;--text:#e8eaf0;--text2:#8892b0;--accent:#34D399}
 body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:68px}
-.hero{height:260px;background:linear-gradient(135deg,#34D399,#059669);display:flex;align-items:flex-end;padding:30px;position:relative;overflow:hidden}
+.hero{height:220px;background:linear-gradient(135deg,#34D399,#059669);display:flex;align-items:flex-end;padding:30px;position:relative;overflow:hidden}
 .hero-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.2}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(transparent,var(--bg))}
 .hero-content{position:relative;z-index:2}
-.hero h1{color:#fff;font-size:2rem;font-weight:800}
-.hero .sub{color:rgba(255,255,255,.9);font-size:.95rem;margin-top:4px}
+.hero h1{color:#fff;font-size:1.9rem;font-weight:800}
+.hero .sub{color:rgba(255,255,255,.9);font-size:.9rem;margin-top:4px}
 .tag{display:inline-block;background:rgba(255,255,255,.15);color:#fff;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:600;backdrop-filter:blur(4px)}
 .content{max-width:700px;margin:0 auto;padding:24px 20px}
 .back{display:inline-flex;align-items:center;gap:6px;color:var(--accent);text-decoration:none;font-weight:600;margin-bottom:16px;font-size:.85rem;transition:transform .2s}
 .back:hover{transform:translateX(-4px)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;animation:fadeUp .5s ease both}
-.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.2s}.card:nth-child(4){animation-delay:.3s}.card:nth-child(5){animation-delay:.35s}.card:nth-child(6){animation-delay:.4s}.card:nth-child(7){animation-delay:.45s}
+.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.2s}.card:nth-child(4){animation-delay:.3s}.card:nth-child(5){animation-delay:.35s}
 .card h2{font-size:1.1rem;font-weight:700;margin-bottom:16px}
 .place{padding:14px 0;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start}
 .place:last-child{border:none}
 .place-icon{font-size:1.6rem;flex-shrink:0;margin-top:2px}
 .place-info{flex:1;min-width:0}
 .place-info h3{font-size:.92rem;font-weight:700;margin-bottom:2px}
-.place-info h3 a{color:var(--accent);text-decoration:none}
+.place-info h3 a{color:var(--text);text-decoration:none}
 .place-info h3 a:hover{text-decoration:underline}
 .place-info p{font-size:.82rem;color:var(--text2);line-height:1.5}
 .place-info .meta{font-size:.75rem;color:var(--text2);margin-top:4px;font-style:italic}
-.place-info .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:600;margin-right:4px}
-.badge-open{background:rgba(52,211,153,.15);color:#34D399}
-.badge-closed{background:rgba(239,68,68,.15);color:#f87171}
-.badge-mins{background:rgba(99,102,241,.15);color:#818cf8}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .transport-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1px solid var(--border);padding:10px 16px;display:flex;justify-content:center;gap:12px;backdrop-filter:blur(20px)}
 .transport-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);color:var(--text);text-decoration:none;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:600;transition:all .2s;cursor:pointer}
@@ -48,7 +44,7 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min
   <img class="hero-img" src="img/boqueria.jpg" alt="Breakfast & Supplies" onerror="this.style.display='none'">
   <div class="hero-content">
     <h1>Breakfast & Supplies</h1>
-    <div class="sub">Everything within 5 minutes of the flat · <span class="tag">reference</span></div>
+    <div class="sub">Everything within 2 minutes of the flat · <span class="tag">reference</span></div>
   </div>
 </div>
 <div class="content">
@@ -60,67 +56,58 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min
   <div class="place">
     <div class="place-icon">🥐</div>
     <div class="place-info">
-      <h3><a href="https://www.fornmistelet.com/" target="_blank" rel="noopener">Forn Mistet</a> · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Forn+Mistet,+Carrer+de+C%C3%B3rsega+229,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>The best croissants in the neighbourhood. Tiny bakery on Carrer de Còrsega, always a queue on weekends. Their <em>cruasans de xocolata</em> are worth the 4-minute walk.</p>
-      <div class="meta">Carrer de Còrsega, 229 · <span class="badge badge-mins">3 min</span> <span class="badge badge-open">Mon–Sat</span></div>
-    </div>
-  </div>
-
-  <div class="place">
-    <div class="place-icon">🍞</div>
-    <div class="place-info">
-      <h3>Baluard Forn de Pa · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Baluard+Forn+de+Pa,+Carrer+de+Bilbao+146,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Artisan bakery with sourdough, focaccia, and traditional Catalan pastries. The <em>coca de recapte</em> (flatbread with roasted veg) is perfect for a quick breakfast on the go.</p>
-      <div class="meta">Carrer de Bilbao, 146 · <span class="badge badge-mins">6 min</span> <span class="badge badge-open">Mon–Sat</span></div>
+      <h3><a href="https://www.google.com/maps/place/Forn+Mistet,+Carrer+de+C%C3%B3rsega,+229,+Barcelona" target="_blank" rel="noopener">Forn Mistet</a></h3>
+      <p>Best croissants in the neighbourhood — the <em>cruasans de xocolata</em> are worth the walk. Tiny place, always a weekend queue.</p>
+      <div class="meta">Carrer de Còrsega, 229 · ~3 min walk</div>
     </div>
   </div>
 
   <div class="place">
     <div class="place-icon">🥖</div>
     <div class="place-info">
-      <h3>L'Eclair Bakery · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/L%E2%80%99Eclair,+Carrer+de+C%C3%B3rsega+283,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Sourdough specialist with excellent baguettes and pastries. Also does great sandwiches if you want something more substantial. The <em>brot de pa</em> (bread loaf) is outstanding.</p>
-      <div class="meta">Carrer de Còrsega, 283 · <span class="badge badge-mins">5 min</span> <span class="badge badge-open">Tue–Sun</span></div>
+      <h3><a href="https://www.google.com/maps/place/Forn+Millet,+Carrer+de+Proven%C3%A7a,+281,+Barcelona" target="_blank" rel="noopener">Forn Millet</a></h3>
+      <p>Traditional Catalan bakery right on Provença — <em>ensaimades</em>, <em>coca</em>, fresh bread, and cheap coffee at the counter. Open early (07:00).</p>
+      <div class="meta">Carrer de Provença, 281 · ~2 min walk</div>
     </div>
   </div>
 
   <div class="place">
-    <div class="place-icon">🧁</div>
+    <div class="place-icon">🍞</div>
     <div class="place-info">
-      <h3>Forn Berta · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Forn+Berta,+Carrer+de+Sant+Joan+30,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Neighbourhood bakery on Carrer de Sant Joan. Solid croissants, <em>ensaimades</em>, and coffee. Open early (07:00) — good for a quick grab before heading out.</p>
-      <div class="meta">Carrer de Sant Joan, 30 · <span class="badge badge-mins">5 min</span> <span class="badge badge-open">Mon–Sat 07:00</span></div>
+      <h3><a href="https://www.google.com/maps/place/Reial+Forn+Tecla,+Carrer+de+Sardenya,+79,+Barcelona" target="_blank" rel="noopener">Reial Forn Tecla</a></h3>
+      <p>Proper neighbourhood bakery on Sardenya, one block from the flat. Fresh baguettes, <em>entrepans</em>, and pastries. Open from 07:00. Grab-and-go.</p>
+      <div class="meta">Carrer de Sardenya, 79 · ~1 min walk</div>
     </div>
   </div>
 </div>
 
 <div class="card">
-  <h2>☕ Cafés (Quick Breakfast)</h2>
+  <h2>☕ Cafés</h2>
 
   <div class="place">
     <div class="place-icon">☕</div>
     <div class="place-info">
-      <h3><a href="https://www.nomeregis.com/" target="_blank" rel="noopener">Només Café</a> · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Nom%C3%A9s+Caf%C3%A9,+Rambla+del+Poblenou+34,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Specialty coffee on Rambla del Poblenou — also the finish point of the Poblenou street art walk. Excellent flat whites and pastries. 10-minute walk but worth it if you're heading that direction.</p>
-      <div class="meta">Rambla del Poblenou, 34 · <span class="badge badge-mins">10 min</span> <span class="badge badge-open">Mon–Sun 08:00</span></div>
+      <h3><a href="https://www.google.com/maps/place/Caf%C3%A8+de+l%27Eixample,+Carrer+de+Mallorca,+378,+Barcelona" target="_blank" rel="noopener">Cafè de l'Eixample</a></h3>
+      <p>Traditional Catalan café. Cheap coffee and <em>entrepans</em> at the counter. No English menu, no pretension. You'll be the only tourists there. Open from 06:30.</p>
+      <div class="meta">Carrer de Mallorca, 378 · ~2 min walk</div>
     </div>
   </div>
 
   <div class="place">
     <div class="place-icon">🥤</div>
     <div class="place-info">
-      <h3>Federal Café · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Federal+Caf%C3%A9,+Carrer+de+C%C3%B3rsega+227,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Australian-style café on the same block as Forn Mistet. Avocado toast, eggs benedict, proper flat whites. Slightly pricier but the breakfast menu is solid. Outdoor terrace for sunny mornings.</p>
-      <div class="meta">Carrer de Còrsega, 227 · <span class="badge badge-mins">3 min</span> <span class="badge badge-open">Mon–Sun 09:00</span></div>
+      <h3><a href="https://www.google.com/maps/place/Federal+Caf%C3%A9,+Carrer+de+C%C3%B3rsega,+227,+Barcelona" target="_blank" rel="noopener">Federal Café</a></h3>
+      <p>Aussie-style brunch — avocado toast, eggs benedict, flat whites. Outdoor terrace for sunny mornings. Slightly pricier but solid. Opens 09:00.</p>
+      <div class="meta">Carrer de Còrsega, 227 · ~3 min walk</div>
     </div>
   </div>
 
   <div class="place">
-    <div class="place-icon">🥐</div>
+    <div class="place-icon">☕</div>
     <div class="place-info">
-      <h3>Cafè de l'Eixample · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Caf%C3%A8+de+l%E2%80%99Eixample,+Carrer+de+Mallorca+378,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Traditional Catalan café on Carrer de Mallorca. Cheap coffee and <em>entrepans</em> (baguette sandwiches). No English menu, no pretension, just fast breakfast at the counter. You'll be the only tourists there.</p>
-      <div class="meta">Carrer de Mallorca, 378 · <span class="badge badge-mins">2 min</span> <span class="badge badge-open">Mon–Sat 06:30</span></div>
+      <h3><a href="https://www.google.com/maps/place/El+Caf%C3%A8+de+la+Roca,+Carrer+de+Sardenya,+98,+Barcelona" target="_blank" rel="noopener">El Cafè de la Roca</a></h3>
+      <p>Tiny neighbourhood café on Sardenya. Fast coffee, pastries, sandwiches. Locals-only vibe, cheap prices. Good for a quick caffeine hit on the way out.</p>
+      <div class="meta">Carrer de Sardenya, 98 · ~1 min walk</div>
     </div>
   </div>
 </div>
@@ -131,67 +118,58 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min
   <div class="place">
     <div class="place-icon">🛒</div>
     <div class="place-info">
-      <h3>Condis Express · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Condis+Express,+Carrer+de+Rossell%C3%B3+184,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>The nearest supermarket — literally on your street. Open 08:00–22:00 every day. Stocks everything: milk, bread, cheese, ham, drinks, snacks, toiletries. This is your go-to for supply runs.</p>
-      <div class="meta">Carrer de Rosselló, 184 · <span class="badge badge-mins">1 min</span> <span class="badge badge-open">Daily 08:00–22:00</span></div>
-    </div>
-  </div>
-
-  <div class="place">
-    <div class="place-icon">🛒</div>
-    <div class="place-info">
-      <h3>Condis (Larger) · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Condis,+Carrer+de+Rossell%C3%B3+466,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Bigger branch with a wider selection — fresh meat counter, deli, more wine options. Worth the extra 2 minutes if you need specific items.</p>
-      <div class="meta">Carrer de Rosselló, 466 · <span class="badge badge-mins">4 min</span> <span class="badge badge-open">Daily 08:00–22:00</span></div>
+      <h3><a href="https://www.google.com/maps/place/Condis,+Carrer+de+Rossell%C3%B3,+184,+Barcelona" target="_blank" rel="noopener">Condis Express</a></h3>
+      <p>On your street — literally around the corner from the flat. Everything you need: milk, bread, cheese, ham, drinks, snacks, toiletries. Open 08:00–22:00 daily. This is your go-to.</p>
+      <div class="meta">Carrer de Rosselló, 184 · ~1 min walk · Daily 08:00–22:00</div>
     </div>
   </div>
 
   <div class="place">
     <div class="place-icon">🏪</div>
     <div class="place-info">
-      <h3>SuperCOR · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/SuperCOR,+Carrer+de+Proven%C3%A7a+279,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Convenience store with longer hours. Good for late-night beer, snacks, or anything you forgot. Slightly more expensive than Condis but open later.</p>
-      <div class="meta">Carrer de Provença, 279 · <span class="badge badge-mins">5 min</span> <span class="badge badge-open">Daily 08:00–01:00</span></div>
+      <h3><a href="https://www.google.com/maps/place/SuperCOR,+Carrer+de+Proven%C3%A7a,+279,+Barcelona" target="_blank" rel="noopener">SuperCOR</a></h3>
+      <p>Convenience store with longer hours than Condis. Slightly more expensive but open till 01:00. Good for late-night beer runs or forgotten supplies.</p>
+      <div class="meta">Carrer de Provença, 279 · ~2 min walk · Daily 08:00–01:00</div>
     </div>
   </div>
 
   <div class="place">
     <div class="place-icon">🍎</div>
     <div class="place-info">
-      <h3>Mercat de la Concepció · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/Mercat+de+la+Concepci%C3%B3,+Carrer+d%27Arag%C3%B3+313,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Full covered market — fruit, veg, meat, fish, cheese, bread. More expensive than supermarkets but the quality is outstanding. Great for picnic supplies, fresh fruit, and jamón ibérico by the 100g.</p>
-      <div class="meta">Carrer d'Aragó, 313 · <span class="badge badge-mins">6 min</span> <span class="badge badge-open">Mon–Sat 08:00–20:30</span></div>
+      <h3><a href="https://www.google.com/maps/place/Mercat+de+la+Concepci%C3%B3,+Carrer+d%27Arag%C3%B3,+313,+Barcelona" target="_blank" rel="noopener">Mercat de la Concepció</a></h3>
+      <p>Covered market — fruit, veg, meat, fish, cheese, bread, jamón by the 100g. More expensive than supermarkets but the quality is outstanding. Great for picnic supplies and fresh fruit.</p>
+      <div class="meta">Carrer d'Aragó, 313 · ~3 min walk · Mon–Sat 08:00–20:30</div>
     </div>
   </div>
 </div>
 
 <div class="card">
-  <h2>🍷 Wine, Beer & Alcohol</h2>
+  <h2>🍷 Wine, Beer & Cava</h2>
+
+  <div class="place">
+    <div class="place-icon">🍾</div>
+    <div class="place-info">
+      <h3>Cava at Condis or SuperCOR</h3>
+      <p>Spanish sparkling wine is absurdly cheap — <strong>Freixenet and Codorníu from €3–5 a bottle</strong>. Same quality as prosecco at half the price. Just buy it at Condis and drink it on the terrace.</p>
+      <div class="meta">Available at Condis (1 min) and SuperCOR (2 min)</div>
+    </div>
+  </div>
 
   <div class="place">
     <div class="place-icon">🍷</div>
     <div class="place-info">
-      <h3>L'Oncle Suri · <a href="https://www.google.com/maps/dir/Carrer+de+Rossell%C3%B3+365,+Barcelona/L%E2%80%99Oncle+Suri,+Carrer+de+C%C3%B3rsega+261,+Barcelona/?travelmode=walking" target="_blank" rel="noopener" style="color:#818cf8;font-size:.75rem;text-decoration:none">🗺️ Walk</a></h3>
-      <p>Natural wine bar and shop. Bottles from €8, excellent Catalan and Spanish selections. The staff know their stuff — tell them what you like and they'll recommend. Takeaway available.</p>
-      <div class="meta">Carrer de Còrsega, 261 · <span class="badge badge-mins">4 min</span> <span class="badge badge-open">Tue–Sat 18:00–00:00</span></div>
+      <h3><a href="https://www.google.com/maps/place/Vila+Viniteca,+Carrer+de+Proven%C3%A7a,+Barcelona" target="_blank" rel="noopener">Vila Viniteca</a></h3>
+      <p>One of Barcelona's best wine shops. Catalan and Spanish wines from €4, staff who know everything. Takeaway bottles or order by the case. A few blocks away but worth it for a decent bottle.</p>
+      <div class="meta">Carrer de Provença · ~5 min walk</div>
     </div>
   </div>
 
   <div class="place">
     <div class="place-icon">🍺</div>
     <div class="place-info">
-      <h3>Condis / SuperCOR</h3>
-      <p>Both supermarkets have a solid wine and beer section. Catalan wines from €3–5, Estrella Damm from €0.60/can. Cheapest option for stocking the flat.</p>
-      <div class="meta">See above for locations and hours</div>
-    </div>
-  </div>
-
-  <div class="place">
-    <div class="place-icon">🍾</div>
-    <div class="place-info">
-      <h3>Cava (in supermarkets)</h3>
-      <p>Spanish sparkling wine (Cava) is absurdly cheap in supermarkets — <strong>Freixenet and Codorníu from €3–5 a bottle</strong>. It's the same quality as prosecco at half the price. Buy it at Condis and drink it on the terrace.</p>
-      <div class="meta">Available at Condis, SuperCOR, and Mercat de la Concepció</div>
+      <h3>Beer at Condis / SuperCOR</h3>
+      <p>Estrella Damm from €0.60/can, Moritz from €0.80. Cans go in the fridge at the flat. No need for a specialist shop — the supermarkets have you covered.</p>
+      <div class="meta">Available at Condis (1 min) and SuperCOR (2 min)</div>
     </div>
   </div>
 </div>
@@ -199,11 +177,11 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min
 <div class="card">
   <h2>📋 Quick Reference</h2>
   <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Flat</span><span class="info-value" style="font-weight:600">Carrer de Rosselló, 365</span></div>
-  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Nearest bakery</span><span class="info-value" style="font-weight:600">Forn Mistet — 3 min</span></div>
-  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Nearest supermarket</span><span class="info-value" style="font-weight:600">Condis — 1 min</span></div>
-  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Nearest market</span><span class="info-value" style="font-weight:600">Mercat de la Concepció — 6 min</span></div>
-  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Nearest café</span><span class="info-value" style="font-weight:600">Cafè de l'Eixample — 2 min</span></div>
-  <div class="info-row" style="padding:10px 0;font-size:.88rem;border:none"><span class="info-label" style="color:var(--text2)">Wine shop</span><span class="info-value" style="font-weight:600">L'Oncle Suri — 4 min</span></div>
+  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Closest bakery</span><span class="info-value" style="font-weight:600">Reial Forn Tecla — 1 min</span></div>
+  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Closest café</span><span class="info-value" style="font-weight:600">El Cafè de la Roca — 1 min</span></div>
+  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Closest supermarket</span><span class="info-value" style="font-weight:600">Condis Express — 1 min</span></div>
+  <div class="info-row" style="border-bottom:1px solid var(--border);padding:10px 0;font-size:.88rem"><span class="info-label" style="color:var(--text2)">Closest market</span><span class="info-value" style="font-weight:600">Mercat Concepció — 3 min</span></div>
+  <div class="info-row" style="padding:10px 0;font-size:.88rem;border:none"><span class="info-label" style="color:var(--text2)">Cheapest Cava</span><span class="info-value" style="font-weight:600">Condis — €3–5/bottle</span></div>
 </div>
 
 </div>
