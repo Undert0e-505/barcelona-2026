@@ -390,12 +390,13 @@ interface Day {
 | 4 | Check In | Wed 27 May | 16:00 | 1h | stays | ✅ checkin.html |
 | 5 | Sartoria Panatieri | Wed 27 May | 19:30 | 1h30 | food | ✅ sartoria.html |
 | 6 | Casa Batlló | Thu 28 May | 09:00 | 2h | sights | ✅ casa-batllo.html |
-| 7 | Magic Fountain | Fri 29 May | 20:00 | 1h | sights | ✅ magic-fountain.html |
+| 7 | Magic Fountain | Fri 29 May | 21:00 | 1h | sights | ✅ magic-fountain.html |
 | 8 | Bogatell Beach | Fri 29 May | 10:00 | 5h | beach | ✅ bogatell.html |
-| 9 | The Venue Steak House | Thu 28 May | 19:00 | 2h | food | ✅ venue-steakhouse.html |
-| 10 | Checkout | Sat 30 May | 10:00 | 30m | general | ❌ no detail page |
-| 11 | Fly Home | Sat 30 May | 10:50 | 1h30 | travel | ✅ flight-home.html |
-| 12 | Collect Car | Sat 30 May | 13:00 | 1h | travel | ✅ parking.html (via page prop) |
+| 9 | Costa Brava Kayak & Snorkel | Fri 29 May | 09:30 | 6h | activities | ✅ costa-brava-kayak.html |
+| 10 | The Venue Steak House | Thu 28 May | 19:00 | 2h | food | ✅ venue-steakhouse.html |
+| 11 | Checkout | Sat 30 May | 10:00 | 30m | general | ❌ no detail page |
+| 12 | Fly Home | Sat 30 May | 10:50 | 1h30 | travel | ✅ flight-home.html |
+| 13 | Collect Car | Sat 30 May | 13:00 | 1h | travel | ✅ parking.html (via page prop) |
 
 ## Current Unscheduled Activities
 
@@ -406,8 +407,30 @@ interface Day {
 | Museu Picasso | sights | ✅ picasso.html |
 | Park Güell | sights | ✅ park-guell.html |
 | Tibidabo | activities | ✅ tibidabo.html |
+| Poblenou Street Art Walk | activities | ✅ poblenou-streetart.html |
 | Mercat de la Boqueria | food | ✅ boqueria.html |
 | Granja Dulcinea | food | ✅ granja-dulcinea.html |
+| Sailing, Inflatables & Snorkel | activities | ✅ sailing-barcelona.html |
+| Breakfast & Supplies Near the Flat | relax | ✅ (uses boqueria.jpg) |
+| CosmoCaixa Science Museum | sights | ✅ cosmocaixa.html |
+
+---
+
+## Workflow
+
+Activities follow a lifecycle across repos:
+
+```
+Idea → Things to Do page (public, no booking info)
+          ↓
+     Offline agreement / booking confirmed
+          ↓
+     Calendar (public, with time slot) + Private repo .md (booking refs, prices)
+```
+
+- **Things to Do** is a staging area — activities there are being *considered*, not necessarily booked
+- An activity can appear on the public site **without** a private repo file (it just means it's not confirmed yet)
+- The voting site ([barcelona-birthday](https://github.com/Undert0e-505/barcelona-birthday)) is in **archive mode** — it served its purpose for initial preference gathering but is no longer being actively updated
 
 ---
 
