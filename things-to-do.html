@@ -113,6 +113,11 @@ function build(){
     groups[item.cat].push(item);
   });
 
+  // Separate 'relax' from other categories
+  const relaxKey = 'relax';
+  const relaxItems = groups[relaxKey] || [];
+  delete groups[relaxKey];
+
   // Desktop: grid of category columns
   const grid = document.createElement("div");
   grid.className = "categories-grid";
@@ -151,6 +156,43 @@ function build(){
   });
 
   container.appendChild(grid);
+
+  // Relax row: centred below the grid
+  if(relaxItems.length > 0){
+    const cat = CATS[relaxKey];
+    const relaxRow = document.createElement("div");
+    relaxRow.className = "relax-row";
+    relaxRow.style.cssText = "max-width:1200px;margin:0 auto;padding:0 20px;";
+
+    const title = document.createElement("div");
+    title.className = "category-title";
+    title.style.color = cat.colour;
+    title.innerHTML = `<span class="ct-emoji">${cat.emoji}</span> ${cat.label}`;
+    relaxRow.appendChild(title);
+
+    const list = document.createElement("div");
+    list.className = "category-list";
+    list.style.cssText = "display:flex;flex-wrap:wrap;gap:12px;justify-content:center;";
+
+    relaxItems.forEach((item,idx) => {
+      const card = document.createElement("a");
+      card.href = `${item.id}.html`;
+      card.className = "activity-card";
+      card.style.animationDelay = `${0.1 + idx * 0.08}s`;
+      card.style.maxWidth = "340px";
+      card.innerHTML = `
+        <img class="activity-card-img" src="${item.img}" alt="${item.title}" onerror="this.style.display='none'">
+        <div class="activity-card-body">
+          <div class="activity-card-title">${item.icon} ${item.title}</div>
+          <div class="activity-card-tag" style="color:${cat.colour}">${cat.label}</div>
+          <div class="activity-card-desc">${item.desc}</div>
+        </div>`;
+      list.appendChild(card);
+    });
+
+    relaxRow.appendChild(list);
+    container.appendChild(relaxRow);
+  }
 }
 
 build();
