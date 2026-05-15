@@ -41,6 +41,7 @@ barcelona-2026/
 ├── parking.html            ← Airport parking detail page
 ├── flight-home.html        ← Return flight detail page
 ├── maps.html               ← Metro & train maps
+├── travel-cb-pg.html       ← Metro route: Casa Batlló → Park Güell
 ├── bunkers.html            ← Bunkers del Carmel detail (unscheduled)
 ├── montjuic-castle.html    ← Montjuïc Castle detail (unscheduled)
 ├── picasso.html            ← Museu Picasso detail (unscheduled)
@@ -390,7 +391,9 @@ interface Day {
 | 4 | Check In | Wed 27 May | 16:00 | 1h | stays | ✅ checkin.html |
 | 5 | Sartoria Panatieri | Wed 27 May | 19:30 | 1h30 | food | ✅ sartoria.html |
 | 6 | Casa Batlló | Thu 28 May | 09:00 | 2h | sights | ✅ casa-batllo.html |
-| 7 | Magic Fountain | Fri 29 May | 21:00 | 1h | sights | ✅ magic-fountain.html |
+| 7 | Metro to Park Güell | Thu 28 May | 11:00 | 1h | travel | ✅ travel-cb-pg.html |
+| 8 | Park Güell | Thu 28 May | 12:00 | 2h | sights | ✅ park-guell.html |
+| 9 | Magic Fountain | Fri 29 May | 21:00 | 1h | sights | ✅ magic-fountain.html |
 | 8 | Bogatell Beach | Fri 29 May | 10:00 | 5h | beach | ✅ bogatell.html |
 | 9 | Costa Brava Kayak & Snorkel | Fri 29 May | 09:30 | 6h | activities | ✅ costa-brava-kayak.html |
 | 10 | The Venue Steak House | Thu 28 May | 19:00 | 2h | food | ✅ venue-steakhouse.html |
@@ -405,7 +408,6 @@ interface Day {
 | Bunkers del Carmel | sights | ✅ bunkers.html |
 | Montjuïc Castle | sights | ✅ montjuic-castle.html |
 | Museu Picasso | sights | ✅ picasso.html |
-| Park Güell | sights | ✅ park-guell.html |
 | Tibidabo | activities | ✅ tibidabo.html |
 | Poblenou Street Art Walk | activities | ✅ poblenou-streetart.html |
 | Mercat de la Boqueria | food | ✅ boqueria.html |
